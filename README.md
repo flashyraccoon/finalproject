@@ -1,5 +1,8 @@
 # finalproject
 
+Manvi Tandon, Louis Dechamps, Anna Hegyaljai
+
+
 Save the Polar Bears
 
 This educational project will focus around polar bears and their critical status as an endangered species. In this context, global warming (especially causing the melting of polar ice, resulting in the diminishing of the animals' natural habitat) will also be taken into account. The content should be accessible to all groups; therefore, the graphics will be friendly and the navigation easy to manage. The educational content will be presented in a way that can be understood by anyone (maybe with help from an adult for children who can't read yet). One part of the experience will be a sort of point-and-click space, where clicking on different objects and images draws up information about polar bears and related topics. The other part will be a small platformer game of sorts, where APIs of climate data will affect the difficulty of the gameplay. Playing as a polar bear, the plaxer has to navigate from the start of the level to the end, jumping from ice shelf to ice shelf/ iceberg, avoiding dangers like open water or pollution etc. A slider will adjust difficulty according to actual diminishing of arctic ice over time.
@@ -42,3 +45,8 @@ Notes
             Today: broken-up ice, higher difficulty
 
             Future: near impossible ?
+
+Credits
+
+    Google Maps Places Search Tutorial:
+    https://developers.google.com/maps/documentation/javascript/examples/place-search
