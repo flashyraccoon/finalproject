@@ -15,7 +15,10 @@ let imgPolarbear;
 //let imgUnicorn;
 let font3DTitle;
 let font2DTitle;
-let multipliers = [];
+
+let menuHeight;
+let menuWidth = width;
+
 
 
 /*function preload() {
@@ -30,6 +33,8 @@ function setup(){
 // imgPolarBear = loadImage("images/assets/poacher.png");
   frameRate(60);
   time = frameCount;
+  rectMode(CORNER);
+  ellipseMode(CORNER);
   //imgBackground = loadImage("images/assets/lawn.jpg");
   var cnv = createCanvas(1000,500);
   //cnv.parent('sketch-holder');
@@ -51,7 +56,7 @@ function draw(){
     }
     //image(imgBackground, 0, 0);
     polarbear.display();
-    polarbear.keyPressed();
+    //polarbear.move();
     for (i of icebergs) {
       i.move();
       i.display();
@@ -177,15 +182,14 @@ class Polarbear {
   display(){
  // put a conditional for a -> only in game state 1
     push();
-    this.a = Math.atan2(mouseY - this.y, mouseX - this.x);
+
     fill(this.colorR, this.colorG, this.colorB, this.alpha);
     stroke(this.outline);
     translate(this.x, this.y);
-    rotate(this.a);
+
     beginShape();
     ellipse(0, 0, this.diameter, this.diameter);
-    strokeWeight(5);
-    line(0, 0, this.diameter, 0);
+
     endShape();
     //image(imgPolarbear, -(this.radius+15), -(this.radius+35), this.diameter+40, this.diameter+40);
 
@@ -194,25 +198,25 @@ class Polarbear {
   }
 
 
-  keyPressed(){
-      if(keyCode === 87) {
+/*  move(){
+      if(keyCode === "w" || key == "W") {
         if(polarbear.y > 40+polarbear.radius) {
           polarbear.y-=5;
         }
-      } else if (keyCode === 83) {
+      } else if (keyCode === "s" || key == "S") {
           if(polarbear.y < height-polarbear.radius) {
             polarbear.y+=5;
           }
-      } else if(keyCode === 65){
+      } else if(keyCode === "a" || key == "A"){
           if(polarbear.x > polarbear.radius) {
             polarbear.x-=5;
           }
-      } else if(keyCode === 68) {
+      } else if(keyCode === "d" || key == "D") {
           if(polarbear.x < width-polarbear.radius) {
             polarbear.x+=5;
           }
       }
-    }
+    } */
 
 
     jump(){
@@ -221,7 +225,25 @@ class Polarbear {
     }
   }
 
-
+function keyPressed(){
+  if(keyCode === "w" || key == "W") {
+    if(polarbear.y >= 40) {
+      polarbear.y-=100;
+    }
+  } else if (keyCode === "s" || key == "S") {
+      if(polarbear.y < height-polarbear.diameter) {
+        polarbear.y+=100;
+      }
+  } else if(keyCode === "a" || key == "A"){
+      if(polarbear.x >= polarbear.diameter) {
+        polarbear.x-=100;
+      }
+  } else if(keyCode === "d" || key == "D") {
+      if(polarbear.x < width-polarbear.diameter) {
+        polarbear.x+=100;
+      }
+  }
+}
 
 class Iceberg {
 
@@ -241,8 +263,8 @@ class Iceberg {
 
   display(){
     noStroke();
-    fill(random(20,240), random(20,240), random(20,240), this.alpha);
-    ellipse(this.x, this.y, this.diameter, this.diameter);
+    fill(0);
+    rect(this.x, this.y, this.diameter, this.diameter);
   }
 
   move(){
