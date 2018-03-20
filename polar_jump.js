@@ -165,8 +165,9 @@ function gameOver(){
 
 class Polarbear {
   constructor(){
-    this.x = width/2;
-    this.y = height/2;
+    this.x = width/2-this.radius;
+    this.y = height/2-this.radius;
+
     this.diameter = 80;
     this.a = 0;
     this.colorR = 255;
