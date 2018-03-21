@@ -2,7 +2,9 @@ let gameState = 0;
 let score = 0;
 let icebergs = [];
 let width = 1024;
+
 let height = 576+64;
+
 let a = 0;
 let timePassed;
 let intervals = [90, 210, 300];
@@ -30,6 +32,7 @@ let menuWidth = width;
 function setup(){
   //font3DTitle = loadFont("fonts/3Dumb-webfont.ttf");
   //font2DTitle = loadFont("fonts/2Dumb.ttf");
+
 // this will be the image of the polar bear
 // imgPolarBear = loadImage("images/assets/poacher.png");
   frameRate(60);
@@ -159,11 +162,11 @@ function gameOver(){
 
 class Polarbear {
   constructor(){
+
     this.diameter = unit;
     this.radius = this.diameter/2;
     this.x = 7*unit;
     this.y = 9*unit;
-
 
     this.colorR = 255;
     this.colorG = 0;
