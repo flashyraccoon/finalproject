@@ -1,6 +1,7 @@
 let gameState = 0;
 let score = 0;
 let icebergs = [];
+let polarbears = [];
 let width = 1024;
 
 let height = 576+64;
@@ -42,7 +43,9 @@ function setup(){
   imgBackground = loadImage("images/polarbear-game.png");
   var cnv = createCanvas(width,height);
   //cnv.parent('sketch-holder');
+
   polarbear = new Polarbear();
+  polarbears.push (polarbear);
 }
 
 function draw(){
@@ -64,6 +67,12 @@ function draw(){
     for (i of icebergs) {
       i.move();
       i.display();
+      for (p of polarbears) {
+        if (i.overlaps(p)){
+          print("overlapping");
+          p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
+        }
+      }
     }
     timePassed = frameCount % random(intervals);
     if (timePassed == 0) {
@@ -213,14 +222,28 @@ function keyPressed(){
       }
   } else if(keyCode === "a" || key == "A"){
       if(polarbear.x > 0) {
-        polarbear.x-=unit;
+        if(polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
+          polarbear.x-=unit;
+        } else if (polarbear.y == height-unit && polarbear.x > 4*unit){ //checks to see if the bear is on the start panel
+          polarbear.x-=unit;
+        } else if (polarbear.y == unit && polarbear.x > 5*unit){ //checks to see if the bear is on the finish panel
+          polarbear.x-=unit;
+        }
       }
+
   } else if(keyCode === "d" || key == "D") {
       if(polarbear.x < width-unit) {
-        polarbear.x+=unit;
+        if (polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
+          polarbear.x+=unit;
+        } else if (polarbear.y == height-unit && polarbear.x < 11*unit){ //checks to see if the bear is on the start panel
+          polarbear.x+=unit;
+        } else if (polarbear.y == unit && polarbear.x < 10*unit){ //checks to see if the bear is on the finish panel
+          polarbear.x+=unit;
+        }
       }
+    }
   }
-}
+
 
 class Iceberg {
 
@@ -248,4 +271,12 @@ class Iceberg {
       this.x -= this.xSpeed;
       }
     }
+
+  overlaps(other){
+    let d = dist(other.x, other.y, this.x, this.y);
+    return (d < (this.width/2 + other.radius));
+    if (lives == 0) {
+      gameState = 0;
+  }
+}
 }
