@@ -2,13 +2,13 @@ let gameState = 0;
 let score = 0;
 let icebergs = [];
 let width = 1024;
-let height = 576;
+let height = 576+64;
 let a = 0;
 let timePassed;
 let intervals = [90, 210, 300];
 let lives = 3;
 let xSpawn = [0, width];
-let ySpawn = [0, height];
+let ySpawn = [128, 182, 256, 320, 384, 448, 512];
 let time;
 let imgBackground;
 let imgPolarbear;
@@ -16,8 +16,10 @@ let imgPolarbear;
 let font3DTitle;
 let font2DTitle;
 
-let menuHeight;
+let unit = 64;
+let menuHeight = unit;
 let menuWidth = width;
+
 
 
 
@@ -28,15 +30,14 @@ let menuWidth = width;
 function setup(){
   //font3DTitle = loadFont("fonts/3Dumb-webfont.ttf");
   //font2DTitle = loadFont("fonts/2Dumb.ttf");
-imgBackground = loadImage('images/polarbear-game.png');
 // this will be the image of the polar bear
 // imgPolarBear = loadImage("images/assets/poacher.png");
   frameRate(60);
   time = frameCount;
   rectMode(CORNER);
   ellipseMode(CORNER);
-  //imgBackground = loadImage("images/assets/lawn.jpg");
-  var cnv = createCanvas(1000,500);
+  imgBackground = loadImage("images/polarbear-game.png");
+  var cnv = createCanvas(width,height);
   //cnv.parent('sketch-holder');
   polarbear = new Polarbear();
 }
@@ -54,23 +55,16 @@ function draw(){
     if (lives == 0) {
       gameState = 2;
     }
-    //image(imgBackground, 0, 0);
+    image(imgBackground, 0, unit);
     polarbear.display();
     //polarbear.move();
     for (i of icebergs) {
       i.move();
       i.display();
-      if (i.overlaps(polarbear)) {
-        if(i.alpha == 255) {
-          lives --;
-          i.color = (255);
-          i.alpha = (0);
-        }
-      }
     }
     timePassed = frameCount % random(intervals);
     if (timePassed == 0) {
-      let iceberg = new Iceberg(random(xSpawn), random(0, 500), random(1,3), random(0,3));
+      let iceberg = new Iceberg(random(xSpawn), random(ySpawn), random(1,3));
       icebergs.push (iceberg);
 
       /*let dangerunicorn = new DangerUnicorn(random(xSpawn), random(0, 500), random(1,3), random(0,3));
@@ -79,10 +73,10 @@ function draw(){
 
     noStroke();
     fill(255);
-    rect(0, 0, width, 40);
+    rect(0, 0, width, unit);
 
     stroke(0);
-    line(0, 40, width, 40);
+    line(0, unit, width, unit);
 
 
     textAlign(LEFT);
@@ -165,15 +159,17 @@ function gameOver(){
 
 class Polarbear {
   constructor(){
-    this.x = width/2-this.radius;
-    this.y = height/2-this.radius;
-    this.diameter = 80;
-    this.a = 0;
+    this.diameter = unit;
+    this.radius = this.diameter/2;
+    this.x = 7*unit;
+    this.y = 9*unit;
+
+
     this.colorR = 255;
     this.colorG = 0;
     this.colorB = 0;
     this.outline = 0;
-    this.radius = this.diameter/2;
+
     this.alpha = 0;
 
 
@@ -197,28 +193,6 @@ class Polarbear {
 
   }
 
-
-/*  move(){
-      if(keyCode === "w" || key == "W") {
-        if(polarbear.y > 40+polarbear.radius) {
-          polarbear.y-=5;
-        }
-      } else if (keyCode === "s" || key == "S") {
-          if(polarbear.y < height-polarbear.radius) {
-            polarbear.y+=5;
-          }
-      } else if(keyCode === "a" || key == "A"){
-          if(polarbear.x > polarbear.radius) {
-            polarbear.x-=5;
-          }
-      } else if(keyCode === "d" || key == "D") {
-          if(polarbear.x < width-polarbear.radius) {
-            polarbear.x+=5;
-          }
-      }
-    } */
-
-
     jump(){
       //let bullet = new Bullet(this.a, this.x, this.y);
       //bullets.push (bullet);
@@ -227,71 +201,48 @@ class Polarbear {
 
 function keyPressed(){
   if(keyCode === "w" || key == "W") {
-    if(polarbear.y >= 40) {
-      polarbear.y-=100;
+    if(polarbear.y > unit) {
+      polarbear.y-=unit;
     }
   } else if (keyCode === "s" || key == "S") {
-      if(polarbear.y < height-polarbear.diameter) {
-        polarbear.y+=100;
+      if(polarbear.y < height-unit) {
+        polarbear.y+=unit;
       }
   } else if(keyCode === "a" || key == "A"){
-      if(polarbear.x >= polarbear.diameter) {
-        polarbear.x-=100;
+      if(polarbear.x > 0) {
+        polarbear.x-=unit;
       }
   } else if(keyCode === "d" || key == "D") {
-      if(polarbear.x < width-polarbear.diameter) {
-        polarbear.x+=100;
+      if(polarbear.x < width-unit) {
+        polarbear.x+=unit;
       }
   }
 }
 
 class Iceberg {
 
-  constructor(_xSpawn, _ySpawn, _xSpeed, _ySpeed){
+  constructor(_xSpawn, _ySpawn, _xSpeed){
     this.xSpawn = _xSpawn;
     this.ySpawn = _ySpawn;
     this.x = _xSpawn;
     this.y = _ySpawn;
     this.xSpeed = _xSpeed;
-    this.ySpeed = _ySpeed;
-    this.diameter = 60;
+    this.width = unit;
+    this.height = unit;
     //this.color = (random(20,240), random(20,240), random(20,240));
-    this.alpha = 255;
-    this.shot = false;
-    this.radius = this.diameter/2;
   }
 
   display(){
     noStroke();
     fill(0);
-    rect(this.x, this.y, this.diameter, this.diameter);
+    rect(this.x, this.y, this.width, this.height);
   }
 
   move(){
     if (this.xSpawn == 0) {
-      if (this.ySpawn <= height/2) {
-        this.x += this.xSpeed;
-        this.y += this.ySpeed;
-      } else if (this.ySpawn >= height/2) {
-        this.x += this.xSpeed;
-        this.y -= this.ySpeed;
-      }
+      this.x += this.xSpeed;
     } else if (this.xSpawn == width) {
-      if (this.ySpawn <= width/2) {
-        this.x -= this.xSpeed;
-        this.y += this.ySpeed;
-      } else if (this.ySpawn >= width/2) {
-        this.x -= this.xSpeed;
-        this.y -= this.ySpeed;
+      this.x -= this.xSpeed;
       }
     }
-  }
-
-  overlaps(other){
-		let d = dist(other.x, other.y, this.x, this.y);
-		return (d < (this.radius + other.radius));
-    if (lives == 0) {
-      gameState = 0;
-    }
-	}
 }
