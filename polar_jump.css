@@ -8,10 +8,13 @@
   src: url("fonts/2Dumb-webfont.ttf");
 }
 
+#button-image {
+  background-image: image("images/psp.png");
+}
 
 body {
-  background-color: lightgray;
-  margin: 40px;
+  background-color: black;
+  margin: 0px;
   padding: 0px;
 }
 
@@ -47,11 +50,21 @@ p {
   margin: 0px, 20px, 0px, 20px;
 }
 
-#panel {
+#sketchholder {
+        height: 400px;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+       }
 
-  margin-top: 40px;
-  font-size: 18px;
-  font-family: monospace;
+.canvas {
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  margin: 0;
+  padding: 0;
 }
 
 .button {

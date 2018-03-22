@@ -2,16 +2,23 @@ let gameState = 0;
 let score = 0;
 let icebergs = [];
 let polarbears = [];
-let width = 1024;
 
+let width = 1024;
 let height = 576+64;
 
 let a = 0;
 let timePassed;
-let intervals = [90, 210, 300];
+let intervals = [210, 300, 600];
 let lives = 3;
-let xSpawn = [0, width];
-let ySpawn = [128, 182, 256, 320, 384, 448, 512];
+
+let overlapping = true;
+
+let unit = 64;
+
+let xSpawns = [0, width];
+let ySpawns = [2*unit, 3*unit, 4*unit, 5*unit, 6*unit, 7*unit, 8*unit];
+let xSpeedRight = [0.5, 1, 1.5];
+let xSpeedLeft = [-0.5, -1, -1.5];
 let time;
 let imgBackground;
 let imgPolarbear;
@@ -19,9 +26,11 @@ let imgPolarbear;
 let font3DTitle;
 let font2DTitle;
 
-let unit = 64;
+
 let menuHeight = unit;
 let menuWidth = width;
+
+
 
 
 
@@ -46,10 +55,13 @@ function setup(){
 
   polarbear = new Polarbear();
   polarbears.push (polarbear);
+
+
 }
 
 function draw(){
   background(121, 210, 121);
+  print(overlapping);
   if (gameState == 0 ){
     startScreen();
     lives = 3;
@@ -62,26 +74,65 @@ function draw(){
       gameState = 2;
     }
     image(imgBackground, 0, unit);
-    polarbear.display();
+
     //polarbear.move();
     for (i of icebergs) {
       i.move();
       i.display();
       for (p of polarbears) {
         if (i.overlaps(p)){
-          print("overlapping");
+          overlapping = true;
           p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
+          print(overlapping);
+        } else if (i.overlaps(p) == false) {
+          overlapping = false;
+          print(overlapping);
         }
       }
     }
-    timePassed = frameCount % random(intervals);
-    if (timePassed == 0) {
-      let iceberg = new Iceberg(random(xSpawn), random(ySpawn), random(1,3));
-      icebergs.push (iceberg);
 
-      /*let dangerunicorn = new DangerUnicorn(random(xSpawn), random(0, 500), random(1,3), random(0,3));
-      dangerunicorns.push (dangerunicorn); */
+    timePassed1 = frameCount % random(intervals);
+    if (timePassed1 == 0) {
+      let iceberg = new Iceberg(0, 128, random(xSpeedRight));
+      icebergs.push (iceberg);
     }
+
+    timePassed2 = frameCount % random(intervals);
+    if (timePassed2 == 0) {
+      let iceberg = new Iceberg(width, 192, random(xSpeedLeft));
+      icebergs.push (iceberg);
+    }
+
+    timePassed3 = frameCount % random(intervals);
+    if (timePassed3 == 0) {
+      let iceberg = new Iceberg(0, 256, random(xSpeedRight));
+      icebergs.push (iceberg);
+    }
+
+    timePassed4 = frameCount % random(intervals);
+    if (timePassed4 == 0) {
+      let iceberg = new Iceberg(width, 320, random(xSpeedLeft));
+      icebergs.push (iceberg);
+    }
+
+    timePassed5 = frameCount % random(intervals);
+    if (timePassed5 == 0) {
+      let iceberg = new Iceberg(0, 384, random(xSpeedRight));
+      icebergs.push (iceberg);
+    }
+
+    timePassed6 = frameCount % random(intervals);
+    if (timePassed6 == 0) {
+      let iceberg = new Iceberg(width, 448, random(xSpeedLeft));
+      icebergs.push (iceberg);
+    }
+
+    timePassed7 = frameCount % random(intervals);
+    if (timePassed7 == 0) {
+      let iceberg = new Iceberg(0, 512, random(xSpeedRight));
+      icebergs.push (iceberg);
+    }
+    polarbear.display();
 
     noStroke();
     fill(255);
@@ -118,7 +169,7 @@ function mouseClicked(){
    } else if (gameState == 2){
      gameState = 0;
    } else if (gameState == 1){
-     polarbear.jump();
+     //polarbear.jump();
    }
   }
 
@@ -248,28 +299,27 @@ function keyPressed(){
 class Iceberg {
 
   constructor(_xSpawn, _ySpawn, _xSpeed){
-    this.xSpawn = _xSpawn;
-    this.ySpawn = _ySpawn;
-    this.x = _xSpawn;
-    this.y = _ySpawn;
-    this.xSpeed = _xSpeed;
+
     this.width = unit;
     this.height = unit;
+    this.speed = _xSpeed;
+    this.xSpawn = _xSpawn;
+    this.ySpawn = _ySpawn;
+
+    this.x = this.xSpawn;
+    this.y = this.ySpawn;
+
     //this.color = (random(20,240), random(20,240), random(20,240));
   }
 
   display(){
-    noStroke();
-    fill(0);
+    stroke(0);
+    fill(255);
     rect(this.x, this.y, this.width, this.height);
   }
 
   move(){
-    if (this.xSpawn == 0) {
-      this.x += this.xSpeed;
-    } else if (this.xSpawn == width) {
-      this.x -= this.xSpeed;
-      }
+      this.x += this.speed;
     }
 
   overlaps(other){
@@ -277,6 +327,6 @@ class Iceberg {
     return (d < (this.width/2 + other.radius));
     if (lives == 0) {
       gameState = 0;
+    }
   }
-}
 }
