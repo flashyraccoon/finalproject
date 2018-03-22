@@ -14,16 +14,18 @@ function gotoGame() {
 }
 
 function setup(){
+  weblink = createA("about.html", "About");
+  weblink.position(width/2-50, 40);
+  weblink.parent("sketch-holder");
 
   var cnv = createCanvas(width, height);
   cnv.parent("sketch-holder");
 
   imgBackground = loadImage("images/classroom.png");
-
   pspBtn = loadImage("images/psp.png");
   pspBtn = new ImageButton(pspBtn, 720, 460, 200, 120);
   imageButtons.push(pspBtn);
-  
+
   pspBtn.mouseOver();
 }
 
@@ -77,8 +79,8 @@ class ImageButton {
 function mouseClicked(){
     if(mouseX > pspBtn.x && mouseX < pspBtn.x2 && mouseY > pspBtn.y && mouseY < pspBtn.y2){
       print("clicked");
-
       open("polar_jump.html");
+
     } else if(mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height){
       //print("clicked");
     }
