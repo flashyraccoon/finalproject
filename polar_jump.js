@@ -6,53 +6,56 @@ let polarbears = [];
 let width = 1024;
 let height = 576+64;
 
+let unit = 64;
 
+let imgBackground;
+let imgPolarbear;
+
+let menuHeight = unit;
+let menuWidth = width;
+
+let slider;
+let sliderValue;
+
+let time;
 let timePassed;
 let intervals = [210, 300, 600];
 let lives = 3;
 
 let overlapping = true;
 
-let unit = 64;
-
 let xSpawns = [0, width];
 let ySpawns = [2*unit, 3*unit, 4*unit, 5*unit, 6*unit, 7*unit, 8*unit];
 let xSpeedRight = [0.5, 1, 1.5];
 let xSpeedLeft = [-0.5, -1, -1.5];
-let time;
-let imgBackground;
-let imgPolarbear;
-//let imgUnicorn;
-let font3DTitle;
-let font2DTitle;
-
-
-let menuHeight = unit;
-let menuWidth = width;
 
 function setup(){
-  //font3DTitle = loadFont("fonts/3Dumb-webfont.ttf");
-  //font2DTitle = loadFont("fonts/2Dumb.ttf");
 
-// this will be the image of the polar bear
-// imgPolarBear = loadImage("images/assets/poacher.png");
   frameRate(60);
   time = frameCount;
   rectMode(CORNER);
   ellipseMode(CORNER);
+
+  slider = createSlider(1, 2, 1, 1);
+  slider.position(width/2-50, 20);
+  slider.style('width', '100px');
+  slider.parent("sketch-holder");
+
   imgBackground = loadImage("images/polarbear-game.png");
-  var cnv = createCanvas(width,height);
-  //cnv.parent('sketch-holder');
+
+  var cnv = createCanvas(width,height, 0, 0);
+  cnv.parent("sketch-holder");
 
   polarbear = new Polarbear();
   polarbears.push (polarbear);
-
-
 }
 
 function draw(){
+
+  sliderValue = slider.value();
   background(121, 210, 121);
-  //print(overlapping);
+  print(sliderValue);
+
   if (gameState == 0 ){
     startScreen();
     lives = 3;
@@ -60,14 +63,15 @@ function draw(){
     time = time*0;
 
   } else if (gameState == 1){
+
     update();
+
     if (lives == 0) {
       gameState = 2;
     }
 
     image(imgBackground, 0, unit);
 
-    //polarbear.move();
     for (i of icebergs) {
       i.move();
       i.display();
@@ -79,49 +83,54 @@ function draw(){
         } else {
           overlapping = false;
           print(overlapping);
-        }
+        } // else if (polarbear is not overlapping with an iceberg){
+            //polarbear is "in the water";
+            //polarbear.flashing(); -> image flashes a couple of times
+            //lives --;
+            //polarbear.teleport(); -> polarbear is teleported back to the start platform
+        //}
       }
     }
 
     timePassed1 = frameCount % random(intervals);
     if (timePassed1 == 0) {
-      let iceberg = new Iceberg(0, 128, random(xSpeedRight));
+      let iceberg = new Iceberg(0, 128, random(xSpeedRight)*sliderValue);
       icebergs.push (iceberg);
     }
 
     timePassed2 = frameCount % random(intervals);
     if (timePassed2 == 0) {
-      let iceberg = new Iceberg(width, 192, random(xSpeedLeft));
+      let iceberg = new Iceberg(width, 192, random(xSpeedLeft)*sliderValue);
       icebergs.push (iceberg);
     }
 
     timePassed3 = frameCount % random(intervals);
     if (timePassed3 == 0) {
-      let iceberg = new Iceberg(0, 256, random(xSpeedRight));
+      let iceberg = new Iceberg(0, 256, random(xSpeedRight)*sliderValue);
       icebergs.push (iceberg);
     }
 
     timePassed4 = frameCount % random(intervals);
     if (timePassed4 == 0) {
-      let iceberg = new Iceberg(width, 320, random(xSpeedLeft));
+      let iceberg = new Iceberg(width, 320, random(xSpeedLeft)*sliderValue);
       icebergs.push (iceberg);
     }
 
     timePassed5 = frameCount % random(intervals);
     if (timePassed5 == 0) {
-      let iceberg = new Iceberg(0, 384, random(xSpeedRight));
+      let iceberg = new Iceberg(0, 384, random(xSpeedRight)*sliderValue);
       icebergs.push (iceberg);
     }
 
     timePassed6 = frameCount % random(intervals);
     if (timePassed6 == 0) {
-      let iceberg = new Iceberg(width, 448, random(xSpeedLeft));
+      let iceberg = new Iceberg(width, 448, random(xSpeedLeft)*sliderValue);
       icebergs.push (iceberg);
     }
 
     timePassed7 = frameCount % random(intervals);
     if (timePassed7 == 0) {
-      let iceberg = new Iceberg(0, 512, random(xSpeedRight));
+      let iceberg = new Iceberg(0, 512, random(xSpeedRight)*sliderValue);
       icebergs.push (iceberg);
     }
     polarbear.display();
@@ -135,18 +144,14 @@ function draw(){
 
     textAlign(LEFT);
     textSize(14);
-  //  textFont(font2DTitle);
+
     fill(0);
-    text("Play!", 10, 30);
-  //  textFont(font2DTitle);
-    fill(0);
-    text("Time: " + round(time/60), 400, 30);
-  //  textFont(font2DTitle);
-    fill(0);
-    text("Unicorns: " + score, 300, 30)
-  //  textFont(font2DTitle);
-    fill(0);
-    text("Lives: " + lives, 200, 30);
+    text("Play!", 40, 40);
+    text("Time: " + round(time/60), 940, 40);
+    text("Lives: " + lives, 230, 40);
+    text("past", width/2-100, 40);
+    text("present", width/2+70, 40);
+
   } else if (gameState == 2){
     gameOver();
   } //else if (gameState == 3){
@@ -160,30 +165,29 @@ function mouseClicked(){
    } else if (gameState == 2){
      gameState = 0;
    } else if (gameState == 1){
-     //polarbear.jump();
+     //no function during the game yet; maybe something later;
    }
-  }
+}
 
 function startScreen() {
-  background(121, 210, 121);
-  //image(imgBackground, 0, 0);
-  fill(0);
-
+  background(100, 200, 250);
+  fill(255);
 
   textAlign(CENTER);
-  textSize(34);
-  //textFont(font3DTitle);
+  textSize(60);
+  stroke(255);
   text("Polar Jump!", width/2, 100);
 
+  noStroke();
   fill(0);
-  //textFont(font2DTitle);
+  textSize(34);
   text("Make it across the melting ice shelf!", width/2, 180);
+
   textSize(20);
   text("Controls:", width/2, 220);
-  textSize(20);
-  text("W: up", width/2, 245);
+  text("W: up/forward", width/2, 245);
   text("A: left", width/2, 270);
-  text("S: down", width/2, 295);
+  text("S: down/backward", width/2, 295);
   text("D: right", width/2, 320);
 
   textAlign(CENTER);
@@ -191,18 +195,17 @@ function startScreen() {
   text("click to begin", width/2, 450);
 }
 
-function winScreen(){
+function winScreen(){ //pulled up when gameState changes to 3; not functional yet;
   background(121, 210, 121);
-  //image(imgBackground, 0, 0);
+
   fill(0);
   textAlign(CENTER);
   textSize(34);
-  //textFont(font3DTitle);
   text("CONGRATULATIONS!", width/2, 100);
 
-  fill(0);
-  //textFont(font2DTitle);
+  textSize(28);
   text("You made it!", width/2, 180);
+
   textSize(20);
   text("Your time:" + round(time/60), width/2, 220);
 
@@ -219,7 +222,8 @@ function update() {
 
 function win(){
   if (gameState == 3){
-
+      //winState 3 == the player has won the game;
+      //the winScreen will be pulled up;
   }
 }
 function gameOver(){
@@ -232,7 +236,6 @@ function gameOver(){
 
 class Polarbear {
   constructor(){
-
     this.diameter = unit;
     this.radius = this.diameter/2;
     this.x = 7*unit;
@@ -240,71 +243,53 @@ class Polarbear {
 
     this.color = 255;
     this.outline = 0;
-
-    this.alpha = 1;
-
-
   }
 
   display(){
- // put a conditional for a -> only in game state 1
     push();
-
-    fill(this.color);
-    stroke(this.outline);
-    translate(this.x, this.y);
-
-    beginShape();
-    ellipse(0, 0, this.diameter, this.diameter);
-
-    endShape();
-    //image(imgPolarbear, -(this.radius+15), -(this.radius+35), this.diameter+40, this.diameter+40);
-
+      fill(this.color);
+      stroke(this.outline);
+      translate(this.x, this.y);
+      beginShape();
+      ellipse(0, 0, this.diameter, this.diameter);
+      endShape();
     pop();
-
   }
-
-    jump(){
-      //let bullet = new Bullet(this.a, this.x, this.y);
-      //bullets.push (bullet);
-    }
-  }
+}
 
 function keyPressed(){
   if(keyCode === "w" || key == "W") {
     if(polarbear.y > unit) {
-      polarbear.y-=unit;
+      polarbear.y-=unit/2;
     } else {
       polarbearPos = unit;
     }
   } else if (keyCode === "s" || key == "S") {
       if(polarbear.y < height-unit) {
-        polarbear.y+=unit;
+        polarbear.y+=unit/2;
       }
   } else if(keyCode === "a" || key == "A"){
       if(polarbear.x > 0) {
         if(polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
-          polarbear.x-=unit;
+          polarbear.x-=unit/2;
         } else if (polarbear.y == height-unit && polarbear.x > 4*unit){ //checks to see if the bear is on the start panel
-          polarbear.x-=unit;
+          polarbear.x-=unit/2;
         } else if (polarbear.y == unit && polarbear.x > 5*unit){ //checks to see if the bear is on the finish panel
-          polarbear.x-=unit;
+          polarbear.x-=unit/2;
         }
       }
-
   } else if(keyCode === "d" || key == "D") {
       if(polarbear.x < width-unit) {
         if (polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
-          polarbear.x+=unit;
+          polarbear.x+=unit/2;
         } else if (polarbear.y == height-unit && polarbear.x < 11*unit){ //checks to see if the bear is on the start panel
-          polarbear.x+=unit;
+          polarbear.x+=unit/2;
         } else if (polarbear.y == unit && polarbear.x < 10*unit){ //checks to see if the bear is on the finish panel
-          polarbear.x+=unit;
-        }
+          polarbear.x+=unit/2;
+        } // else if(...) if polarbear.y == on the finish platform, the player wins!
       }
     }
   }
-
 
 class Iceberg {
 
@@ -318,8 +303,6 @@ class Iceberg {
 
     this.x = this.xSpawn;
     this.y = this.ySpawn;
-
-    //this.color = (random(20,240), random(20,240), random(20,240));
   }
 
   display(){

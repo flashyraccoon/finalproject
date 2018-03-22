@@ -23,7 +23,7 @@ MVP Goals
 
     - Use a newsfeed API to display on a newspaper in the room with latest news about polar bears
     - Implement a fluid timeline slider accessing every decade or so in the last century, automatically changing difficulty in some manner
-    
+
 Tasks
 
     - research polar bear info
@@ -67,3 +67,6 @@ Credits
 
     Google Maps Places Search Tutorial:
     https://developers.google.com/maps/documentation/javascript/examples/place-search
+
+    SONY PSP image:
+    By Evan-Amos - Own work, Public Domain, https://commons.wikimedia.org/w/index.php?curid=11337256
