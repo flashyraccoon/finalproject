@@ -6,7 +6,7 @@ let polarbears = [];
 let width = 1024;
 let height = 576+64;
 
-let a = 0;
+
 let timePassed;
 let intervals = [210, 300, 600];
 let lives = 3;
@@ -30,15 +30,6 @@ let font2DTitle;
 let menuHeight = unit;
 let menuWidth = width;
 
-
-
-
-
-
-/*function preload() {
-
-}
-*/
 function setup(){
   //font3DTitle = loadFont("fonts/3Dumb-webfont.ttf");
   //font2DTitle = loadFont("fonts/2Dumb.ttf");
@@ -61,7 +52,7 @@ function setup(){
 
 function draw(){
   background(121, 210, 121);
-  print(overlapping);
+  //print(overlapping);
   if (gameState == 0 ){
     startScreen();
     lives = 3;
@@ -73,6 +64,7 @@ function draw(){
     if (lives == 0) {
       gameState = 2;
     }
+
     image(imgBackground, 0, unit);
 
     //polarbear.move();
@@ -84,7 +76,7 @@ function draw(){
           overlapping = true;
           p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
           print(overlapping);
-        } else if (i.overlaps(p) == false) {
+        } else {
           overlapping = false;
           print(overlapping);
         }
@@ -141,7 +133,6 @@ function draw(){
     stroke(0);
     line(0, unit, width, unit);
 
-
     textAlign(LEFT);
     textSize(14);
   //  textFont(font2DTitle);
@@ -158,13 +149,13 @@ function draw(){
     text("Lives: " + lives, 200, 30);
   } else if (gameState == 2){
     gameOver();
-  }
-
-
+  } //else if (gameState == 3){
+    //winScreen();
+  //}
 }
 
 function mouseClicked(){
-   if (gameState == 0 ){
+   if (gameState == 0 || gameState == 3){
      gameState = 1;
    } else if (gameState == 2){
      gameState = 0;
@@ -182,13 +173,11 @@ function startScreen() {
   textAlign(CENTER);
   textSize(34);
   //textFont(font3DTitle);
-  text("Unicorn Poacher", width/2, 100);
+  text("Polar Jump!", width/2, 100);
 
   fill(0);
   //textFont(font2DTitle);
-  textSize(24);
-  text("Poach the Unicorns!", width/2, 150);
-  text("But don't let them get you!", width/2, 180);
+  text("Make it across the melting ice shelf!", width/2, 180);
   textSize(20);
   text("Controls:", width/2, 220);
   textSize(20);
@@ -196,12 +185,30 @@ function startScreen() {
   text("A: left", width/2, 270);
   text("S: down", width/2, 295);
   text("D: right", width/2, 320);
-  text("Mouse: aim", width/2, 345);
-  text("Left MB: shoot", width/2, 370);
 
   textAlign(CENTER);
   textSize(28);
   text("click to begin", width/2, 450);
+}
+
+function winScreen(){
+  background(121, 210, 121);
+  //image(imgBackground, 0, 0);
+  fill(0);
+  textAlign(CENTER);
+  textSize(34);
+  //textFont(font3DTitle);
+  text("CONGRATULATIONS!", width/2, 100);
+
+  fill(0);
+  //textFont(font2DTitle);
+  text("You made it!", width/2, 180);
+  textSize(20);
+  text("Your time:" + round(time/60), width/2, 220);
+
+  textAlign(CENTER);
+  textSize(28);
+  text("click to play again", width/2, 450);
 }
 
 function update() {
@@ -210,8 +217,11 @@ function update() {
   //image(imgBackground, 0, 0);
 }
 
+function win(){
+  if (gameState == 3){
 
-
+  }
+}
 function gameOver(){
   if (gameState == 0){
     gameState = 1;
@@ -228,12 +238,10 @@ class Polarbear {
     this.x = 7*unit;
     this.y = 9*unit;
 
-    this.colorR = 255;
-    this.colorG = 0;
-    this.colorB = 0;
+    this.color = 255;
     this.outline = 0;
 
-    this.alpha = 0;
+    this.alpha = 1;
 
 
   }
@@ -242,7 +250,7 @@ class Polarbear {
  // put a conditional for a -> only in game state 1
     push();
 
-    fill(this.colorR, this.colorG, this.colorB, this.alpha);
+    fill(this.color);
     stroke(this.outline);
     translate(this.x, this.y);
 
@@ -266,6 +274,8 @@ function keyPressed(){
   if(keyCode === "w" || key == "W") {
     if(polarbear.y > unit) {
       polarbear.y-=unit;
+    } else {
+      polarbearPos = unit;
     }
   } else if (keyCode === "s" || key == "S") {
       if(polarbear.y < height-unit) {
@@ -314,7 +324,7 @@ class Iceberg {
 
   display(){
     stroke(0);
-    fill(255);
+    fill(255, 255, 255, 200);
     rect(this.x, this.y, this.width, this.height);
   }
 
@@ -324,7 +334,9 @@ class Iceberg {
 
   overlaps(other){
     let d = dist(other.x, other.y, this.x, this.y);
-    return (d < (this.width/2 + other.radius));
+    return (d < (this.width/2 + other.radius)/2);
+    overlapping = true;
+
     if (lives == 0) {
       gameState = 0;
     }
