@@ -16,12 +16,14 @@ function gotoGame() {
 function setup(){
 
   var cnv = createCanvas(width, height);
-  imgBackground = loadImage("images/classroom.png");
-  pspBtn = loadImage("images/psp.png");
+  cnv.parent("sketch-holder");
 
+  imgBackground = loadImage("images/classroom.png");
+
+  pspBtn = loadImage("images/psp.png");
   pspBtn = new ImageButton(pspBtn, 720, 460, 200, 120);
   imageButtons.push(pspBtn);
-
+  
   pspBtn.mouseOver();
 }
 
@@ -64,7 +66,7 @@ class ImageButton {
 
   mouseOver(){
     psp = true;
-    
+
   }
 }
 
