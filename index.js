@@ -27,15 +27,16 @@ function setup(){
   imageButtons.push(pspBtn);
 
   pspBtn.mouseOver();
+
 }
 
 function draw(){
 
   image(imgBackground, 0, unit);
   pspBtn.display();
+  pspBtn.display();
   //pspBtn.mouseOver(psp);
   //return (false);
-
   noStroke();
   fill(255);
   rect(0, 0, width, unit);
@@ -49,6 +50,9 @@ function draw(){
   fill(0);
   text("Play!", 10, 30);
 //  textFont(font2DTitle);
+
+  noFill();
+  rect(475, 97, 170, 172);
 }
 
 class ImageButton {
@@ -81,7 +85,7 @@ function mouseClicked(){
       print("clicked");
       open("polar_jump.html");
 
-    } else if(mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height){
-      //print("clicked");
+    } else if(mouseX > 475 && mouseX < 645 && mouseY > 97 && mouseY < 269){
+      open("about.html");
     }
   }

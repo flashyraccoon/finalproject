@@ -77,11 +77,9 @@ function draw(){
       i.display();
       for (p of polarbears) {
         if (i.overlaps(p)){
-          overlapping = true;
           p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
           print(overlapping);
-        } else {
-          overlapping = false;
+        } else if(overlapping == false) {
           print(overlapping);
         } // else if (polarbear is not overlapping with an iceberg){
             //polarbear is "in the water";
@@ -316,10 +314,11 @@ class Iceberg {
     }
 
   overlaps(other){
-    let d = dist(other.x, other.y, this.x, this.y);
-    return (d < (this.width/2 + other.radius)/2);
-    overlapping = true;
-
+    let d = dist(other.x, other.y, this.x, this.y); //sets d as the distance between other and iceberg
+    return (d < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
+    if(d == true){
+      overlapping = true;
+    } 
     if (lives == 0) {
       gameState = 0;
     }
