@@ -75,10 +75,10 @@ function draw(){
       gameState = 2;
     }
 
+
     if (polarbear.y == 2*unit){ //checks if the bear got to the top
       gameState = 3;
     }
-
 
     image(imgBackground, 0, unit);
 
