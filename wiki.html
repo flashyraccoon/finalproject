@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Wiki Game Example</title>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js"></script>
+
+<style>
+  /* add some styling to links */ 
+  a {
+    color: tomato;
+  }
+</style>
+
+  <script type="text/javascript">
+
+let wikiData; 
+
+function setup() {
+  createCanvas(200, 200);
+  callWikiAPI('polar%20bear');
+}
+
+function callWikiAPI(pageName){
+  print(pageName);
+  let url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + pageName + '&prop=text&section=0&format=json'
+  loadJSON(url, gotData, 'jsonp');
+}
+
+function gotData(data){
+  wikiData = data;
+  display();
+}
+
+function display(){
+  if (wikiData){    // if the data is loaded and ready to display
+    let tex = wikiData.parse.text['*']; // deal with weird Wiki API formatting
+    document.getElementById('wikiContainer').innerHTML = tex; // reset the HTML content of the div with the new data
+    let p = document.getElementById('wikiContainer').getElementsByTagName('p'); // store the <p> elements
+    let img = document.getElementById('wikiContainer').getElementsByTagName('img'); // store the <img> elements
+    
+    
+    if (img[0]){ // if there are any images
+      loadImage(img[0].src, function(i) { // load the first image from it's src attribute
+        image(i, 0, 0); // display the image on the canvas
+        // do further image processing here
+        // or call an outside function 
+      });
+    }
+
+    // this is because usually you want the 2nd paragraph, unless there is only 1 paragraph
+    let para = p[0];
+    if (p.length > 1){
+       para = p[1];
+    }
+
+    // now display the paragraph on the page
+    document.getElementById('wikiContainer').innerHTML = para.innerHTML; // reset the HTML content of the div with the content of desired paragraph element
+    let links = document.getElementById('wikiContainer').getElementsByTagName('a'); // grab all the links in the HTML
+    for (let i = 0; i < links.length; i++){ // loop through each one
+      // take away the href attribute, so the link doesn't take you away to Wikipedia
+      links[i].removeAttribute('href');
+      // instead, create a new attribute that calls our API-calling function when the link is clicked
+      links[i].setAttribute('onclick', 'callWikiAPI(this.title)');
+    }
+  }
+}
+
+  </script>
+</head>
+<body>
+<h2>Find:</h2>
+  <div id="quoteDisplay">
+    <!-- Quotes will display here -->
+  </div>
+  
+    <button onclick="newQuote()">New Quote</button>
+
+    <script src="javascript.js"></script>
+
+
+  <div id=wikiContainer> </div>
+</body>
+</html>
