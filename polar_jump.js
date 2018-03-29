@@ -42,6 +42,7 @@ function setup(){
   slider.parent("sketch-holder");
 
   imgBackground = loadImage("images/polarbear-game.png");
+  imgPolarbear = loadImage("images/bear.png");
 
   var cnv = createCanvas(width,height, 0, 0);
   cnv.parent("sketch-holder");
@@ -249,8 +250,10 @@ class Polarbear {
       stroke(this.outline);
       translate(this.x, this.y);
       beginShape();
-      ellipse(0, 0, this.diameter, this.diameter);
+      //ellipse(0, 0, this.diameter, this.diameter);
       endShape();
+      image(imgPolarbear, -(this.radius), -(this.radius), 2*unit, 2*unit);
+      //imgPolarbear(this.x, this.y, unit, unit);
     pop();
   }
 }
@@ -318,7 +321,7 @@ class Iceberg {
     return (d < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
     if(d == true){
       overlapping = true;
-    } 
+    }
     if (lives == 0) {
       gameState = 0;
     }
