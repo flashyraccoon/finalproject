@@ -71,6 +71,9 @@ function draw(){
       gameState = 2;
     }
 
+    if (polarbear.y == 2*unit){
+      gameState = 2;
+    }
     image(imgBackground, 0, unit);
 
     for (i of icebergs) {
@@ -250,7 +253,7 @@ class Polarbear {
       stroke(this.outline);
       translate(this.x, this.y);
       beginShape();
-      //ellipse(0, 0, this.diameter, this.diameter);
+      // ellipse(0, 0, this.diameter, this.diameter);
       endShape();
       image(imgPolarbear, -(this.radius), -(this.radius), 2*unit, 2*unit);
       //imgPolarbear(this.x, this.y, unit, unit);
