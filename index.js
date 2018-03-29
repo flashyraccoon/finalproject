@@ -8,13 +8,10 @@ let imageButtons = [];
 
 let pspBtn;
 let psp = false;
-  
-function gotoGame() {
- print("clicked the image");
-}
-
+ 
 function setup(){
-  weblink = createA("about.html", "About");
+
+  weblink = createA("#","");
   weblink.position(width/2-50, 40);
   weblink.parent("sketch-holder");
 
@@ -27,7 +24,6 @@ function setup(){
   imageButtons.push(pspBtn);
 
   pspBtn.mouseOver();
-
 }
 
 function draw(){
