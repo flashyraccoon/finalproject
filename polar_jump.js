@@ -29,6 +29,8 @@ let ySpawns = [2*unit, 3*unit, 4*unit, 5*unit, 6*unit, 7*unit, 8*unit];
 let xSpeedRight = [0.5, 1, 1.5];
 let xSpeedLeft = [-0.5, -1, -1.5];
 
+let y;
+
 function setup(){
 
   frameRate(60);
@@ -42,6 +44,7 @@ function setup(){
   slider.parent("sketch-holder");
 
   imgBackground = loadImage("images/polarbear-game.png");
+  imgPolarbear = loadImage("images/bear.png");
 
   var cnv = createCanvas(width,height, 0, 0);
   cnv.parent("sketch-holder");
@@ -62,12 +65,19 @@ function draw(){
     score = 0;
     time = time*0;
 
+
+
   } else if (gameState == 1){
 
     update();
 
     if (lives == 0) {
       gameState = 2;
+    }
+
+
+    if (polarbear.y == 2*unit){ //checks if the bear got to the top
+      gameState = 3;
     }
 
     image(imgBackground, 0, unit);
@@ -152,18 +162,27 @@ function draw(){
 
   } else if (gameState == 2){
     gameOver();
-  } //else if (gameState == 3){
-    //winScreen();
-  //}
+  } else if (gameState == 3){
+    winScreen();
+  }
 }
 
 function mouseClicked(){
-   if (gameState == 0 || gameState == 3){
+   if (gameState == 0){
      gameState = 1;
    } else if (gameState == 2){
      gameState = 0;
    } else if (gameState == 1){
      //no function during the game yet; maybe something later;
+   } else if (gameState == 3){
+     polarbear.x = 7*unit;
+     polarbear.y = 9*unit;
+
+     lives = 3;
+     score = 0;
+     time = time*0;
+
+     gameState = 0;
    }
 }
 
@@ -218,12 +237,6 @@ function update() {
   //image(imgBackground, 0, 0);
 }
 
-function win(){
-  if (gameState == 3){
-      //winState 3 == the player has won the game;
-      //the winScreen will be pulled up;
-  }
-}
 function gameOver(){
   if (gameState == 0){
     gameState = 1;
@@ -249,8 +262,10 @@ class Polarbear {
       stroke(this.outline);
       translate(this.x, this.y);
       beginShape();
-      ellipse(0, 0, this.diameter, this.diameter);
+      // ellipse(0, 0, this.diameter, this.diameter);
       endShape();
+      image(imgPolarbear, -(this.radius), -(this.radius), 2*unit, 2*unit);
+      //imgPolarbear(this.x, this.y, unit, unit);
     pop();
   }
 }
@@ -318,7 +333,7 @@ class Iceberg {
     return (d < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
     if(d == true){
       overlapping = true;
-    } 
+    }
     if (lives == 0) {
       gameState = 0;
     }
