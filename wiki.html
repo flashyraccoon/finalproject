@@ -9,9 +9,17 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js"></script>
-
+ <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet"> 
 <style>
   /* add some styling to links */ 
+
+body {
+	font-family: 'Pangolin', cursive;
+	color: white;
+	font-size: 150%;
+	}
+
+
   a {
     color: tomato;
   }
@@ -23,11 +31,12 @@ let wikiData;
 
 function setup() {
   createCanvas(200, 200);
-  callWikiAPI('polar%20bear');
+  let term = newQuote();
+  callWikiAPI(term);
 }
 
 function callWikiAPI(pageName){
-  print(pageName);
+  console.log(pageName);
   let url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + pageName + '&prop=text&section=0&format=json'
   loadJSON(url, gotData, 'jsonp');
 }
@@ -53,10 +62,14 @@ function display(){
       });
     }
 
-    // this is because usually you want the 2nd paragraph, unless there is only 1 paragraph
-    let para = p[0];
+	// this is because usually you want the 2nd paragraph onwards, unless there is only 1 paragraph
+    let para = p[0]; 
     if (p.length > 1){
-       para = p[1];
+       para = p[1]; // keep paragraph 1
+       let max = p.length; // max number of paragraphs
+       for (let i = 2; i < max; i++){
+         para.appendChild(p[i]); // append additional paragraphs
+       }
     }
 
     // now display the paragraph on the page
@@ -73,13 +86,13 @@ function display(){
 
   </script>
 </head>
-<body>
+<body background="bboard.jpg">
 <h2>Find:</h2>
   <div id="quoteDisplay">
     <!-- Quotes will display here -->
   </div>
-  
-    <button onclick="newQuote()">New Quote</button>
+ 
+    <button onclick="moreQuote()">New Game</button>
 
     <script src="javascript.js"></script>
 
