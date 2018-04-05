@@ -21,7 +21,7 @@ let sliderValue;
 
 let time;
 let timePassed;
-let intervals = [5, 30, 45];
+let intervals = [15, 30, 45];
 let lives = 3;
 
 let timeSinceClick = 0;
@@ -98,6 +98,14 @@ function draw(){
       i.move();
       i.display();
 
+      if (i.y == height-unit){
+        i.ySpeed *= -1;
+      }
+
+      if (i.y == unit){
+        i.ySpeed *= -1;
+      }
+
       for (j of icebergs){
         if (i.bounce(j)){
           if (j.x-i.x < i.radius){
@@ -127,7 +135,7 @@ function draw(){
 
     timePassed1 = frameCount % random(intervals);
     if (timePassed1 == 0) {
-      let iceberg = new Iceberg(random(ySpawns), random(2, 3), random(ySpeeds));
+      let iceberg = new Iceberg(random(ySpawns), random(2, 3), random(ySpeeds)*sliderValue);
       //let iceberg = new Iceberg(0, 128, random(xSpeedRight)*sliderValue);
       icebergs.push (iceberg);
     }
@@ -266,29 +274,31 @@ function keyTyped(){
   previousTime = currentTime;
   currentTime = millis();
 
-  if (currentTime - previousTime < 1000) return;
+  //if (currentTime - previousTime < 1000) return;
 
   print(key);
 
-  for (other of icebergs) {
-  let q = dist(other.x, other.y, this.x, this.y); //sets d as the distance between other and iceberg
-  // return (q < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
-  if (q > (other.radius)) return;
+  // for (other of icebergs) {
+  // let q = dist(other.x, other.y, this.x, this.y); //sets d as the distance between other and iceberg
+  // // return (q < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
+  // if (q > (other.radius)/2+unit/2) return;
 
   if(key === "w" || key == "W") {
-    if (q < (this.diameter/2 + other.radius)/2+unit/2) {
-      this.y -= other.y;
-
-    } else if(polarbear.y > unit) {
+    // if (q < (this.diameter/2 + other.radius)/2+unit/2) {
+    //   this.y -= other.y;
+    //
+    // } else
+    if(polarbear.y > unit) {
       polarbear.y-=unit/2;
       // print(polarbear.y);
     } //else {
       //polarbearPos = unit;
     //}
   } else if (key === "s" || key == "S") {
-    if (q < (this.diameter/2 + other.radius)/2+unit/2) {
-      this.y += other.y;
-    } else if(polarbear.y < height-unit) {
+    // if (q < (this.diameter/2 + other.radius)/2+unit/2) {
+    //   this.y += other.y;
+    // } else
+    if(polarbear.y < height-unit) {
         polarbear.y+=unit/2;
       }
   } else if(key === "a" || key == "A"){
@@ -313,7 +323,7 @@ function keyTyped(){
       }
     }
   }
-}
+//}
 
 class Iceberg {
 
