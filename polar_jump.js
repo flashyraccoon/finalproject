@@ -193,23 +193,23 @@ function startScreen() {
   textAlign(CENTER);
   textSize(60);
   stroke(255);
-  text("Polar Jump!", width/2, 100);
+  text("Polar Jump!", width/2, 200);
 
   noStroke();
   fill(0);
   textSize(34);
-  text("Make it across the melting ice shelf!", width/2, 180);
+  text("Make it across the melting ice shelf!", width/2, 280);
 
   textSize(20);
-  text("Controls:", width/2, 220);
-  text("W: up/forward", width/2, 245);
-  text("A: left", width/2, 270);
-  text("S: down/backward", width/2, 295);
-  text("D: right", width/2, 320);
+  text("Controls:", width/2, 330);
+  text("W: up/forward", width/2, 380);
+  text("A: left", width/2, 405);
+  text("S: down/backward", width/2, 430);
+  text("D: right", width/2, 455);
 
   textAlign(CENTER);
   textSize(28);
-  text("click to begin", width/2, 450);
+  text("<click to begin>", width/2, 550);
 }
 
 function winScreen(){ //pulled up when gameState changes to 3; not functional yet;
@@ -319,7 +319,7 @@ function keyTyped(){
           polarbear.x+=unit/2;
         } else if (polarbear.y == unit && polarbear.x < 10*unit){ //checks to see if the bear is on the finish panel
           polarbear.x+=unit/2;
-        } // else if(...) if polarbear.y == on the finish platform, the player wins!
+        }
       }
     }
   }
