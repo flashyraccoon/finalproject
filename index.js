@@ -53,7 +53,7 @@ function draw(){
   textSize(14);
 //  textFont(font2DTitle);
   fill(0);
-  text("Play!", 10, 30);
+  text("Look around... There is much to discover!", 10, 30);
 //  textFont(font2DTitle);
 
   noFill();
@@ -99,6 +99,6 @@ function mouseClicked(){
     } else if(mouseX > 200 && mouseX < 300 && mouseY > 460 && mouseY < 560){
       open("map.html");
     } else if(mouseX > 180 && mouseX < 455 && mouseY > 80 && mouseY < 275){
-      open("wiki.hmtl");
+      open("wiki.html");
     }
   }
