@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+        <!--
+          ARTG2260: Programming Basics
+          Section 2
+          Anna Hegyaljai
+          anna.hegyaljai@gmail.com
+          Assignment 4.0: Make a Game!
+          Title: Unicorn Poacher
+
+          <h1>4.0: Make a Game!</h1>
+          <p>
+          About the game:<br>
+          <ul>
+            <li>2D axonometric game screen</li>
+            <li>player can move freely using WASD or arrow keys</li>
+            <li>He is a poacher of unicorns</li>
+            <li>the unicorns are generated randomly from the edges of the screen</li>
+            <li>they wander around the screen, disappearing off the screen after a while</li>
+            <li>the unicorn poacher has to poach the unicorns</li>
+            <li>different classes of unicorns:</li>
+            <ul>
+              <li>Regular Unicorns: they just prance around regularly. Of poached, grant regular points.</li>
+              <li>Aggressive Unicorns: if they get within a certain radius of the Poacher, they attack    (moving straight towards him and trying to stab him with their horn). If poached, grant regular points. If they attack successfully, they take away HP.</li>
+              <li>Rare Pansy Unicorns: they run away once within a certain radius of the Poacher. If poached, grant extra many points.</li>
+            </ul>
+          </ul>
+          Next steps:<br>
+          <ul>
+            <li>make the avatar rotate towards the mouse correctly (center of avatar is currently 0,0 of the canvas it seems)</li>
+            <li>make a bullet shoot when the right button is pushed</li>
+            <li>create a functional unicorn class</li>
+          </ul>
+        </p>
+
+          Game description:
+          - 2D axonometric game screen
+          - player can move freely using WASD or arrow keys
+          - He is a poacher of unicorns
+          - the unicorns are generated randomly from the edges of the screen
+          - they wander around the screen, disappearing off the screen after a while
+          - the unicorn poacher has to poach the unicorns
+          - different classes of unicorns:
+            - Regular Unicorns: they just prance around regularly. Of poached, grant regular points.
+            - Aggressive Unicorns: if they get within a certain radius of the Poacher, they attack    (moving straight towards him and trying to stab him with their horn). If poached, grant regular points. If they attack successfully, they take away HP.
+            - Rare Pansy Unicorns: they run away once within a certain radius of the Poacher. If poached, grant extra many points.
+        -->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js"></script>
+
+    <script src="polar_jump.js"></script>
+
+
+
+    <link rel="stylesheet" href="polar_jump.css">
+
+    <title>Polar Jump</title>
+
+</head>
+
+<body>
+  <div id="sketch-holder"></div>
+</body>
+
+</html>
