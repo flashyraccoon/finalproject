@@ -3,6 +3,7 @@ let height = 576+64;
 
 let unit = 64;
 let imgBackground;
+let imgDrawing;
 
 let imageButtons = [];
 
@@ -19,6 +20,7 @@ function setup(){
   cnv.parent("sketch-holder");
 
   imgBackground = loadImage("images/classroom.png");
+  imgDrawing = loadImage("images/drawing_distorted.png");
   pspBtn = loadImage("images/psp.png");
   pspBtn = new ImageButton(pspBtn, 720, 460, 200, 120);
   imageButtons.push(pspBtn);
@@ -29,6 +31,7 @@ function setup(){
 function draw(){
 
   image(imgBackground, 0, unit);
+  //image(imgDrawing, 200, 500, 200, 80);
   pspBtn.display();
   pspBtn.display();
   //pspBtn.mouseOver(psp);
