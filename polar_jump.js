@@ -21,8 +21,11 @@ let sliderValue;
 
 let time;
 let timePassed;
-let intervals = [30, 45];
+let intervals = [5, 30, 45];
 let lives = 3;
+
+let timeSinceClick = 0;
+let currentTime, previousTime;
 
 let overlapping = true;
 
@@ -66,7 +69,7 @@ function setup(){
 function draw(){
 
   sliderValue = slider.value();
-  print(sliderValue);
+  // print(sliderValue);
 
   if (gameState == 0 ){
     startScreen();
@@ -110,9 +113,9 @@ function draw(){
         if (i.overlaps(p)){
           p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
           p.y=i.y;
-          print(overlapping);
+          // print(overlapping);
         } else if(overlapping == false) {
-          print(overlapping);
+          // print(overlapping);
         } // else if (polarbear is not overlapping with an iceberg){
             //polarbear is "in the water";
             //polarbear.flashing(); -> image flashes a couple of times
@@ -129,41 +132,6 @@ function draw(){
       icebergs.push (iceberg);
     }
 
-    // timePassed2 = frameCount % random(intervals);
-    // if (timePassed2 == 0) {
-    //   let iceberg = new Iceberg(width, 192, random(xSpeedLeft)*sliderValue);
-    //   icebergs.push (iceberg);
-    // }
-    //
-    // timePassed3 = frameCount % random(intervals);
-    // if (timePassed3 == 0) {
-    //   let iceberg = new Iceberg(0, 256, random(xSpeedRight)*sliderValue);
-    //   icebergs.push (iceberg);
-    // }
-    //
-    // timePassed4 = frameCount % random(intervals);
-    // if (timePassed4 == 0) {
-    //   let iceberg = new Iceberg(width, 320, random(xSpeedLeft)*sliderValue);
-    //   icebergs.push (iceberg);
-    // }
-    //
-    // timePassed5 = frameCount % random(intervals);
-    // if (timePassed5 == 0) {
-    //   let iceberg = new Iceberg(0, 384, random(xSpeedRight)*sliderValue);
-    //   icebergs.push (iceberg);
-    // }
-    //
-    // timePassed6 = frameCount % random(intervals);
-    // if (timePassed6 == 0) {
-    //   let iceberg = new Iceberg(width, 448, random(xSpeedLeft)*sliderValue);
-    //   icebergs.push (iceberg);
-    // }
-    //
-    // timePassed7 = frameCount % random(intervals);
-    // if (timePassed7 == 0) {
-    //   let iceberg = new Iceberg(0, 512, random(xSpeedRight)*sliderValue);
-    //   icebergs.push (iceberg);
-    // }
     polarbear.display();
 
     noStroke();
@@ -294,18 +262,36 @@ class Polarbear {
   }
 }
 
-function keyPressed(){
-  if(keyCode === "w" || key == "W") {
-    if(polarbear.y > unit) {
+function keyTyped(){
+  previousTime = currentTime;
+  currentTime = millis();
+
+  if (currentTime - previousTime < 1000) return;
+
+  print(key);
+
+  for (other of icebergs) {
+  let q = dist(other.x, other.y, this.x, this.y); //sets d as the distance between other and iceberg
+  // return (q < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
+  if (q > (other.radius)) return;
+
+  if(key === "w" || key == "W") {
+    if (q < (this.diameter/2 + other.radius)/2+unit/2) {
+      this.y -= other.y;
+
+    } else if(polarbear.y > unit) {
       polarbear.y-=unit/2;
-    } else {
-      polarbearPos = unit;
-    }
-  } else if (keyCode === "s" || key == "S") {
-      if(polarbear.y < height-unit) {
+      // print(polarbear.y);
+    } //else {
+      //polarbearPos = unit;
+    //}
+  } else if (key === "s" || key == "S") {
+    if (q < (this.diameter/2 + other.radius)/2+unit/2) {
+      this.y += other.y;
+    } else if(polarbear.y < height-unit) {
         polarbear.y+=unit/2;
       }
-  } else if(keyCode === "a" || key == "A"){
+  } else if(key === "a" || key == "A"){
       if(polarbear.x > 0) {
         if(polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
           polarbear.x-=unit/2;
@@ -315,7 +301,7 @@ function keyPressed(){
           polarbear.x-=unit/2;
         }
       }
-  } else if(keyCode === "d" || key == "D") {
+  } else if(key === "d" || key == "D") {
       if(polarbear.x < width-unit) {
         if (polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
           polarbear.x+=unit/2;
@@ -327,6 +313,7 @@ function keyPressed(){
       }
     }
   }
+}
 
 class Iceberg {
 
