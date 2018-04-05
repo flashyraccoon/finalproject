@@ -53,7 +53,8 @@ function draw(){
   textSize(14);
 //  textFont(font2DTitle);
   fill(0);
-  text("Look around... There is much to discover!", 10, 30);
+  textAlign(CENTER);
+  text("Look around... There is much to discover!", width/2, 30);
 //  textFont(font2DTitle);
 
   noFill();
