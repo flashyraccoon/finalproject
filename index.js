@@ -22,8 +22,11 @@ function setup(){
 
   imgBackground = loadImage("images/classroom.png");
   imgDrawing = loadImage("images/drawing_distorted.png");
-  phoneBtn = loadImage("images.phone.png");
-  phoneBtn = new ImageButton(phoneBtn, 300, 460, 200, 200);
+
+  phoneBtn = loadImage("images/phone.png");
+  phoneBtn = new ImageButton(phoneBtn, 200, 460, 100, 100);
+  imageButtons.push(pspBtn);
+
   pspBtn = loadImage("images/psp.png");
   pspBtn = new ImageButton(pspBtn, 720, 460, 200, 120);
   imageButtons.push(pspBtn);
@@ -36,7 +39,7 @@ function draw(){
   image(imgBackground, 0, unit);
   //image(imgDrawing, 200, 500, 200, 80);
   pspBtn.display();
-  pspBtn.display();
+  phoneBtn.display();
   //pspBtn.mouseOver(psp);
   //return (false);
   noStroke();
@@ -92,9 +95,9 @@ function mouseClicked(){
     } else if(mouseX > 475 && mouseX < 645 && mouseY > 97 && mouseY < 269){
       open("about.html");
 
-    }  else if(mouseX > 885 && mouseX < 1002 && mouseY > 270 && mouseY < 285){
+    } else if(mouseX > 200 && mouseX < 300 && mouseY > 460 && mouseY < 560){
       open("map.html");
     }
 
-    
+
   }

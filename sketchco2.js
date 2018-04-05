@@ -16,7 +16,7 @@ function setup() {
    if(emissionsData == null || emissionsData == undefined)
     return;
     for (var r = 0; r < emissionsData.getRowCount(); r++){
-       
+
         let row = emissionsData.getRow(r);
         let country = row.getString('ISO_NAME');
         let emission = row.getString('Emission');
@@ -42,7 +42,7 @@ function setup() {
         });
         let latLng = new google.maps.LatLng(latitude,longitude);
 
-       
+
         var color = getStrokeColor(meltdown);
         let marker = new google.maps.Marker({
                 position: latLng,
@@ -56,18 +56,18 @@ function setup() {
         marker.addListener('click', function() {
              infowindow.open(map, marker);
           });
-        
+
     }
 /*
     var legend = document.getElementById('legend');
     var div = document.createElement('div');
     div.innerHTML = '<img src="' + icon + '"> ' + name;
     legend.appendChild(div);
-   
+
 
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);*/
 
-   
+
 }
 
 
@@ -86,5 +86,3 @@ function setup() {
    return "#900000 ";
 
  }
-
-
