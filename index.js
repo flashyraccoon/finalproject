@@ -8,6 +8,7 @@ let imgDrawing;
 let imageButtons = [];
 
 let pspBtn;
+let phoneBtn;
 let psp = false;
  
 function setup(){
@@ -21,6 +22,8 @@ function setup(){
 
   imgBackground = loadImage("images/classroom.png");
   imgDrawing = loadImage("images/drawing_distorted.png");
+  phoneBtn = loadImage("images.phone.png");
+  phoneBtn = new ImageButton(phoneBtn, 300, 460, 200, 200);
   pspBtn = loadImage("images/psp.png");
   pspBtn = new ImageButton(pspBtn, 720, 460, 200, 120);
   imageButtons.push(pspBtn);
@@ -52,6 +55,8 @@ function draw(){
 
   noFill();
   rect(475, 97, 170, 172);
+
+
 }
 
 class ImageButton {
