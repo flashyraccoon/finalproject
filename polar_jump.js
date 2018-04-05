@@ -1,6 +1,7 @@
 let gameState = 0;
 let score = 0;
 let icebergs = [];
+let iceberg;
 let polarbears = [];
 
 let width = 1024;
@@ -9,6 +10,7 @@ let height = 576+64;
 let unit = 64;
 
 let imgBackground;
+let imgStartscreen;
 let imgPolarbear;
 
 let menuHeight = unit;
@@ -19,21 +21,28 @@ let sliderValue;
 
 let time;
 let timePassed;
-let intervals = [210, 300, 600];
+let intervals = [30, 45];
 let lives = 3;
 
 let overlapping = true;
 
-let xSpawns = [0, width];
-let ySpawns = [2*unit, 3*unit, 4*unit, 5*unit, 6*unit, 7*unit, 8*unit];
-let xSpeedRight = [0.5, 1, 1.5];
-let xSpeedLeft = [-0.5, -1, -1.5];
+//let xSpeedRight = [0.5, 1, 1.5];
+//let xSpeedLeft = [-0.5, -1, -1.5];
+let ySpeeds = [-1, 1];
+let ySpawns = [unit, 2.5*unit, 4*unit, 5.5*unit, 7*unit, 8.5*unit];
 
+let x;
 let y;
+let xSpeed;
+let ySpeed;
+let radius;
+
+let i;
+let j;
 
 function setup(){
 
-  frameRate(60);
+  frameRate(15);
   time = frameCount;
   rectMode(CORNER);
   ellipseMode(CORNER);
@@ -44,6 +53,7 @@ function setup(){
   slider.parent("sketch-holder");
 
   imgBackground = loadImage("images/polarbear-game.png");
+  imgStartscreen = loadImage("images/polarbear-startscreen.png");
   imgPolarbear = loadImage("images/bear.png");
 
   var cnv = createCanvas(width,height, 0, 0);
@@ -56,7 +66,6 @@ function setup(){
 function draw(){
 
   sliderValue = slider.value();
-  background(121, 210, 121);
   print(sliderValue);
 
   if (gameState == 0 ){
@@ -75,19 +84,32 @@ function draw(){
       gameState = 2;
     }
 
-
-    if (polarbear.y == 2*unit){ //checks if the bear got to the top
+    if (polarbear.y < 1.5*unit && polarbear.x > 4.5*unit && polarbear.x < 12*unit){ //checks if the bear got to the top
       gameState = 3;
     }
+
 
     image(imgBackground, 0, unit);
 
     for (i of icebergs) {
       i.move();
       i.display();
+
+      for (j of icebergs){
+        if (i.bounce(j)){
+          if (j.x-i.x < i.radius){
+            i.ySpeed *= -1;
+            j.ySpeed *= -1;
+          }
+        }
+      }
+
+
+
       for (p of polarbears) {
         if (i.overlaps(p)){
           p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
+          p.y=i.y;
           print(overlapping);
         } else if(overlapping == false) {
           print(overlapping);
@@ -102,45 +124,46 @@ function draw(){
 
     timePassed1 = frameCount % random(intervals);
     if (timePassed1 == 0) {
-      let iceberg = new Iceberg(0, 128, random(xSpeedRight)*sliderValue);
+      let iceberg = new Iceberg(random(ySpawns), random(2, 3), random(ySpeeds));
+      //let iceberg = new Iceberg(0, 128, random(xSpeedRight)*sliderValue);
       icebergs.push (iceberg);
     }
 
-    timePassed2 = frameCount % random(intervals);
-    if (timePassed2 == 0) {
-      let iceberg = new Iceberg(width, 192, random(xSpeedLeft)*sliderValue);
-      icebergs.push (iceberg);
-    }
-
-    timePassed3 = frameCount % random(intervals);
-    if (timePassed3 == 0) {
-      let iceberg = new Iceberg(0, 256, random(xSpeedRight)*sliderValue);
-      icebergs.push (iceberg);
-    }
-
-    timePassed4 = frameCount % random(intervals);
-    if (timePassed4 == 0) {
-      let iceberg = new Iceberg(width, 320, random(xSpeedLeft)*sliderValue);
-      icebergs.push (iceberg);
-    }
-
-    timePassed5 = frameCount % random(intervals);
-    if (timePassed5 == 0) {
-      let iceberg = new Iceberg(0, 384, random(xSpeedRight)*sliderValue);
-      icebergs.push (iceberg);
-    }
-
-    timePassed6 = frameCount % random(intervals);
-    if (timePassed6 == 0) {
-      let iceberg = new Iceberg(width, 448, random(xSpeedLeft)*sliderValue);
-      icebergs.push (iceberg);
-    }
-
-    timePassed7 = frameCount % random(intervals);
-    if (timePassed7 == 0) {
-      let iceberg = new Iceberg(0, 512, random(xSpeedRight)*sliderValue);
-      icebergs.push (iceberg);
-    }
+    // timePassed2 = frameCount % random(intervals);
+    // if (timePassed2 == 0) {
+    //   let iceberg = new Iceberg(width, 192, random(xSpeedLeft)*sliderValue);
+    //   icebergs.push (iceberg);
+    // }
+    //
+    // timePassed3 = frameCount % random(intervals);
+    // if (timePassed3 == 0) {
+    //   let iceberg = new Iceberg(0, 256, random(xSpeedRight)*sliderValue);
+    //   icebergs.push (iceberg);
+    // }
+    //
+    // timePassed4 = frameCount % random(intervals);
+    // if (timePassed4 == 0) {
+    //   let iceberg = new Iceberg(width, 320, random(xSpeedLeft)*sliderValue);
+    //   icebergs.push (iceberg);
+    // }
+    //
+    // timePassed5 = frameCount % random(intervals);
+    // if (timePassed5 == 0) {
+    //   let iceberg = new Iceberg(0, 384, random(xSpeedRight)*sliderValue);
+    //   icebergs.push (iceberg);
+    // }
+    //
+    // timePassed6 = frameCount % random(intervals);
+    // if (timePassed6 == 0) {
+    //   let iceberg = new Iceberg(width, 448, random(xSpeedLeft)*sliderValue);
+    //   icebergs.push (iceberg);
+    // }
+    //
+    // timePassed7 = frameCount % random(intervals);
+    // if (timePassed7 == 0) {
+    //   let iceberg = new Iceberg(0, 512, random(xSpeedRight)*sliderValue);
+    //   icebergs.push (iceberg);
+    // }
     polarbear.display();
 
     noStroke();
@@ -155,7 +178,7 @@ function draw(){
 
     fill(0);
     text("Play!", 40, 40);
-    text("Time: " + round(time/60), 940, 40);
+    text("Time: " + round(time/15), 940, 40);
     text("Lives: " + lives, 230, 40);
     text("past", width/2-100, 40);
     text("present", width/2+70, 40);
@@ -187,7 +210,8 @@ function mouseClicked(){
 }
 
 function startScreen() {
-  background(100, 200, 250);
+
+  image(imgStartscreen, 0, unit);
   fill(255);
 
   textAlign(CENTER);
@@ -306,27 +330,33 @@ function keyPressed(){
 
 class Iceberg {
 
-  constructor(_xSpawn, _ySpawn, _xSpeed){
-
+  constructor(_ySpawn, _xSpeed, _ySpeed){
+    this.xSpawn = -64;
+    this.ySpawn = _ySpawn
+    this.x = -64;
+    this.y = _ySpawn;
     this.width = unit;
     this.height = unit;
-    this.speed = _xSpeed;
-    this.xSpawn = _xSpawn;
-    this.ySpawn = _ySpawn;
-
-    this.x = this.xSpawn;
-    this.y = this.ySpawn;
+    this.xSpeed = _xSpeed;
+    this.ySpeed = _ySpeed;
+    this.radius = unit/2;
   }
 
   display(){
     stroke(0);
     fill(255, 255, 255, 200);
-    rect(this.x, this.y, this.width, this.height);
+    ellipse(this.x, this.y, this.width, this.height);
   }
 
   move(){
-      this.x += this.speed;
+      this.x += this.xSpeed;
+      this.y += this.ySpeed;
     }
+
+  bounce(other) {
+    let t = dist(other.x, other.y, this.x, this.y); //sets t as the distance between other and iceberg
+    return (t <= (this.radius + other.radius));
+  	}
 
   overlaps(other){
     let d = dist(other.x, other.y, this.x, this.y); //sets d as the distance between other and iceberg
