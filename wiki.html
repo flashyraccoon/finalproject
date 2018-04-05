@@ -9,9 +9,9 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js"></script>
- <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet"> 
+ <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
 <style>
-  /* add some styling to links */ 
+  /* add some styling to links */
 
 body {
 	font-family: 'Pangolin', cursive;
@@ -27,7 +27,7 @@ body {
 
   <script type="text/javascript">
 
-let wikiData; 
+let wikiData;
 
 function setup() {
   createCanvas(200, 200);
@@ -52,18 +52,18 @@ function display(){
     document.getElementById('wikiContainer').innerHTML = tex; // reset the HTML content of the div with the new data
     let p = document.getElementById('wikiContainer').getElementsByTagName('p'); // store the <p> elements
     let img = document.getElementById('wikiContainer').getElementsByTagName('img'); // store the <img> elements
-    
-    
+
+
     if (img[0]){ // if there are any images
       loadImage(img[0].src, function(i) { // load the first image from it's src attribute
         image(i, 0, 0); // display the image on the canvas
         // do further image processing here
-        // or call an outside function 
+        // or call an outside function
       });
     }
 
 	// this is because usually you want the 2nd paragraph onwards, unless there is only 1 paragraph
-    let para = p[0]; 
+    let para = p[0];
     if (p.length > 1){
        para = p[1]; // keep paragraph 1
        let max = p.length; // max number of paragraphs
@@ -91,7 +91,7 @@ function display(){
   <div id="quoteDisplay">
     <!-- Quotes will display here -->
   </div>
- 
+
     <button onclick="moreQuote()">New Game</button>
 
     <script src="javascript.js"></script>

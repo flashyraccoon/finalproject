@@ -59,6 +59,7 @@ function draw(){
   noFill();
   rect(475, 97, 170, 172);
 
+  rect(180, 80, 275, 195);
 
 }
 
@@ -97,7 +98,7 @@ function mouseClicked(){
 
     } else if(mouseX > 200 && mouseX < 300 && mouseY > 460 && mouseY < 560){
       open("map.html");
+    } else if(mouseX > 180 && mouseX < 455 && mouseY > 80 && mouseY < 275){
+      open("wiki.hmtl");
     }
-
-
   }
