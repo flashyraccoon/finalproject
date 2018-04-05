@@ -86,5 +86,10 @@ function mouseClicked(){
 
     } else if(mouseX > 475 && mouseX < 645 && mouseY > 97 && mouseY < 269){
       open("about.html");
+
+    }  else if(mouseX > 885 && mouseX < 1002 && mouseY > 270 && mouseY < 285){
+      open("map.html");
     }
+
+    
   }
