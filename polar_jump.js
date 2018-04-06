@@ -121,6 +121,12 @@ function draw(){
         if (i.overlaps(p)){
           p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
           p.y=i.y;
+
+          if(sliderValue == 2) {
+            i.width -= 0.5;
+            i.height -= 0.5;
+          }
+
           // print(overlapping);
         } else if(overlapping == false) {
           // print(overlapping);
