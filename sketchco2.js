@@ -3,7 +3,7 @@ var emissionsData;
 
 
 function preload() {
-  emissionsData =  loadTable('finalproject/CountriesByEmission(2012).csv','csv', 'header');
+  emissionsData =  loadTable('CountriesByEmission(2012).csv','csv', 'header');
 }
 
 function setup() {
