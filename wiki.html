@@ -57,7 +57,7 @@ function display(){
     if (img[0]){ // if there are any images
       loadImage(img[0].src, function(i) { // load the first image from it's src attribute
         image(i, 0, 0); // display the image on the canvas
-        filter(POSTERIZE, 7);
+        filter(POSTERIZE, 8);
         filter(GRAY);
         // do further image processing here
         // or call an outside function
