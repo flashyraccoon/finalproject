@@ -1,13 +1,19 @@
-let gameState = 0;
-let score = 0;
-let icebergs = [];
-let iceberg;
-let polarbears = [];
-
 let width = 1024;
 let height = 576+64;
-
 let unit = 64;
+
+let gameState = 0;
+let score = 0;
+let lives = 3;
+
+let time;
+let timePassed;
+let intervals = [15, 30, 45];
+let timeSinceClick = 0;
+let currentTime, previousTime;
+
+let slider;
+let sliderValue;
 
 let imgBackground;
 let imgStartscreen;
@@ -16,21 +22,10 @@ let imgPolarbear;
 let menuHeight = unit;
 let menuWidth = width;
 
-let slider;
-let sliderValue;
+let icebergs = [];
+let iceberg;
+let polarbears = [];
 
-let time;
-let timePassed;
-let intervals = [15, 30, 45];
-let lives = 3;
-
-let timeSinceClick = 0;
-let currentTime, previousTime;
-
-let overlapping = true;
-
-//let xSpeedRight = [0.5, 1, 1.5];
-//let xSpeedLeft = [-0.5, -1, -1.5];
 let ySpeeds = [-1, 1];
 let ySpawns = [unit, 2.5*unit, 4*unit, 5.5*unit, 7*unit, 8.5*unit];
 
@@ -42,6 +37,8 @@ let radius;
 
 let i;
 let j;
+
+let overlapping = true;
 
 function setup(){
 

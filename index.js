@@ -15,6 +15,8 @@ let phoneBtn;
  
 function setup(){
 
+  snowFont = loadFont("fonts/FROSW___.ttf");
+
   weblink = createA("#","");
   weblink.position(width/2-50, 40);
   weblink.parent("sketch-holder");
@@ -26,7 +28,7 @@ function setup(){
   imgMenubar = loadImage("images/menubar.png");
 
   imgIceshelf = loadImage("images/iceshelf.png");
-  imgIceshelf = new ImageButton(imgIceshelf, width/2-300, height/2-150, 600, 300);
+  imgIceshelf = new ImageButton(imgIceshelf, width/2, height/2, 600, 300);
   imageButtons.push(imgIceshelf);
 
   helpBtn = loadImage("images/questionmark.png");
@@ -47,16 +49,15 @@ function draw(){
 
   image(imgBackground, 0, unit);
   image(imgMenubar, 0, 0);
-
   //pspBtn.mouseOver(psp);
   //return (false);
-
-  textAlign(LEFT);
-  textSize(14);
+  textSize(34);
 //  textFont(font2DTitle);
-  fill(0);
+  fill(100, 240, 255);
+  stroke(0);
   textAlign(CENTER);
-  text("Look around... There is much to discover!", width/2, 30);
+  textFont(snowFont);
+  text("Look around! There is much to discover!", width/2, 35);
 //  textFont(font2DTitle);
 
   noFill();
@@ -108,6 +109,10 @@ function mouseClicked(){
       if(help==false){
         help=true;
         print(help);
+
+        imgIceshelf.display(); // WHY NO DISPLAY?!?
+
+
       } else if(help==true){
         help=false;
       }
