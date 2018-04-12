@@ -59,6 +59,7 @@ function setup(){
 
   imgBackground = loadImage("images/polarbear-game.png");
   imgStartscreen = loadImage("images/polarbear-startscreen.png");
+  imgMenubar = loadImage("images/menubar.png");
   imgPolarbear = loadImage("images/bear.png");
   imgIceshelf = loadImage("images/iceshelf.png");
 
@@ -93,7 +94,6 @@ function draw(){
     if (polarbear.y < 1.5*unit && polarbear.x > 4.5*unit && polarbear.x < 12*unit){ //checks if the bear got to the top
       gameState = 3;
     }
-
 
     image(imgBackground, 0, unit);
 
@@ -151,12 +151,7 @@ function draw(){
 
     polarbear.display();
 
-    noStroke();
-    fill(255);
-    rect(0, 0, width, unit);
-
-    stroke(0);
-    line(0, unit, width, unit);
+    image(imgMenubar, 0, 0);
 
     textAlign(LEFT);
     textSize(14);

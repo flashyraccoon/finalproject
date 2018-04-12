@@ -2,14 +2,16 @@ let width = 1024;
 let height = 576+64;
 
 let unit = 64;
+
 let imgBackground;
-let imgDrawing;
+let imgIceshelf;
+let help = false;
 
 let imageButtons = [];
 
+let helpBtn;
 let pspBtn;
 let phoneBtn;
-let psp = false;
  
 function setup(){
 
@@ -21,7 +23,15 @@ function setup(){
   cnv.parent("sketch-holder");
 
   imgBackground = loadImage("images/classroom.png");
-  imgDrawing = loadImage("images/drawing_distorted.png");
+  imgMenubar = loadImage("images/menubar.png");
+
+  imgIceshelf = loadImage("images/iceshelf.png");
+  imgIceshelf = new ImageButton(imgIceshelf, width/2-300, height/2-150, 600, 300);
+  imageButtons.push(imgIceshelf);
+
+  helpBtn = loadImage("images/questionmark.png");
+  helpBtn = new ImageButton(helpBtn, width-unit, 0, unit, unit);
+  imageButtons.push(helpBtn);
 
   phoneBtn = loadImage("images/phone.png");
   phoneBtn = new ImageButton(phoneBtn, 200, 460, 100, 100);
@@ -31,23 +41,15 @@ function setup(){
   pspBtn = new ImageButton(pspBtn, 720, 460, 200, 120);
   imageButtons.push(pspBtn);
 
-  pspBtn.mouseOver();
 }
 
 function draw(){
 
   image(imgBackground, 0, unit);
-  //image(imgDrawing, 200, 500, 200, 80);
-  pspBtn.display();
-  phoneBtn.display();
+  image(imgMenubar, 0, 0);
+
   //pspBtn.mouseOver(psp);
   //return (false);
-  noStroke();
-  fill(255);
-  rect(0, 0, width, unit);
-
-  stroke(0);
-  line(0, unit, width, unit);
 
   textAlign(LEFT);
   textSize(14);
@@ -58,10 +60,18 @@ function draw(){
 //  textFont(font2DTitle);
 
   noFill();
-  rect(475, 97, 170, 172);
+  noStroke();
+  rect(475, 97, 170, 172); //polarbear poster -> about page
+  rect(180, 80, 275, 195); //chalc board -> wiki game
 
-  rect(180, 80, 275, 195);
+  helpBtn.display();
+  pspBtn.display();
+  phoneBtn.display();
 
+  if(help==true){
+    imgIceshelf.display();
+    print("help");
+  }
 }
 
 class ImageButton {
@@ -78,16 +88,7 @@ class ImageButton {
   display(){
     image(this.name, this.x, this.y, this.width, this.height);
   }
-
-  mouseOver(){
-    psp = true;
-
-  }
 }
-
-//function mouseOver(){
-
-//}
 
 function mouseClicked(){
     if(mouseX > pspBtn.x && mouseX < pspBtn.x2 && mouseY > pspBtn.y && mouseY < pspBtn.y2){
@@ -99,7 +100,16 @@ function mouseClicked(){
 
     } else if(mouseX > 200 && mouseX < 300 && mouseY > 460 && mouseY < 560){
       open("map.html");
+
     } else if(mouseX > 180 && mouseX < 455 && mouseY > 80 && mouseY < 275){
       open("wiki.html");
+
+    } else if(mouseX > helpBtn.x && mouseX < helpBtn.x2 && mouseY > helpBtn.y && mouseY < helpBtn.y2){
+      if(help==false){
+        help=true;
+        print(help);
+      } else if(help==true){
+        help=false;
+      }
     }
   }
