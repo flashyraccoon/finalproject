@@ -73,3 +73,6 @@ Credits
 
     Child's drawing of dying polar bears:
     http://payload188.cargocollective.com/1/7/236146/6073255/Save%20the%20Polar%20bears%20drawing%20670.jpg
+
+    Question Mark Image:
+    http://www.clker.com/clipart-question-mark-2.html
