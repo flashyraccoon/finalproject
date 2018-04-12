@@ -17,6 +17,7 @@ let sliderValue;
 
 let imgBackground;
 let imgStartscreen;
+let imgMenubar;
 let imgPolarbear;
 
 let menuHeight = unit;
@@ -55,6 +56,7 @@ function setup(){
   slider.parent("sketch-holder");
 
   imgBackground = loadImage("images/polarbear-game.png");
+  imgMenubar = loadImage("images/menubar.png");
   imgStartscreen = loadImage("images/polarbear-startscreen.png");
   imgMenubar = loadImage("images/menubar.png");
   imgPolarbear = loadImage("images/bear.png");
@@ -190,12 +192,13 @@ function mouseClicked(){
 function startScreen() {
 
   image(imgStartscreen, 0, unit);
+  image(imgMenubar, 0, 0);
   image(imgIceshelf, 250, unit+20, 500, 250);
 
 
   textAlign(CENTER);
   textSize(60);
-  fill(0);
+  fill(100, 240, 255);
   stroke(0);
   textFont(snowFont);
   text("Polar Jump!", width/2, 200);

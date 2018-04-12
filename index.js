@@ -4,6 +4,7 @@ let height = 576+64;
 let unit = 64;
 
 let imgBackground;
+let imgMenubar;
 let imgIceshelf;
 let help = false;
 
@@ -24,7 +25,7 @@ function setup(){
   var cnv = createCanvas(width, height);
   cnv.parent("sketch-holder");
 
-  imgBackground = loadImage("images/classroom.png");
+  imgBackground = loadImage("images/researchstat.jpg");
   imgMenubar = loadImage("images/menubar.png");
 
   imgIceshelf = loadImage("images/iceshelf.png");
@@ -47,7 +48,7 @@ function setup(){
 
 function draw(){
 
-  image(imgBackground, 0, unit);
+  image(imgBackground, 0, unit, width, height);
   image(imgMenubar, 0, 0);
   //pspBtn.mouseOver(psp);
   //return (false);
@@ -57,7 +58,7 @@ function draw(){
   stroke(0);
   textAlign(CENTER);
   textFont(snowFont);
-  text("Look around! There is much to discover!", width/2, 35);
+  text("Look around! There is much to discover!", width/2, 40);
 //  textFont(font2DTitle);
 
   noFill();
