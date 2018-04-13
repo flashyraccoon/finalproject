@@ -98,7 +98,7 @@ function draw(){
       gameState = 2;
     }
 
-    if (polarbear.y < 1.5*unit && polarbear.x > 4.5*unit && polarbear.x < 12*unit){ //checks if the bear got to the top
+    if (polarbear.y < 1.2*unit && polarbear.x > 4.5*unit && polarbear.x < 12*unit){ //checks if the bear got to the top
       gameState = 3;
     }
 
