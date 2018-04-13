@@ -20,6 +20,10 @@ let imgStartscreen;
 let imgMenubar;
 let imgPolarbear;
 
+let icebergImages = [];
+let imgIceberg_01;
+let imgIceberg_02;
+
 let menuHeight = unit;
 let menuWidth = width;
 
@@ -61,6 +65,10 @@ function setup(){
   imgMenubar = loadImage("images/menubar.png");
   imgPolarbear = loadImage("images/bear.png");
   imgIceshelf = loadImage("images/iceshelf.png");
+  imgIceberg_01 = loadImage("images/ice1.png");
+  icebergImages.push(imgIceberg_01);
+  imgIceberg_02 = loadImage("images/ice2.png");
+  icebergImages.push(imgIceberg_02);
 
   var cnv = createCanvas(width,height, 0, 0);
   cnv.parent("sketch-holder");
@@ -90,7 +98,7 @@ function draw(){
       gameState = 2;
     }
 
-    if (polarbear.y < 1.5*unit && polarbear.x > 4.5*unit && polarbear.x < 12*unit){ //checks if the bear got to the top
+    if (polarbear.y < 1.2*unit && polarbear.x > 4.5*unit && polarbear.x < 12*unit){ //checks if the bear got to the top
       gameState = 3;
     }
 
@@ -124,6 +132,12 @@ function draw(){
           p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
           p.y=i.y;
 
+          if(i.x > width){
+            i.x = -unit;
+            p.x = i.x;
+            p.y = i.y;
+          }
+
           if(sliderValue == 2) {
             i.width -= 0.5;
             i.height -= 0.5;
@@ -145,7 +159,7 @@ function draw(){
     if (timePassed1 == 0) {
       let iceberg = new Iceberg(random(ySpawns), random(2, 3), random(ySpeeds)*sliderValue);
       //let iceberg = new Iceberg(0, 128, random(xSpeedRight)*sliderValue);
-      icebergs.push (iceberg);
+      icebergs.push(iceberg);
     }
 
     polarbear.display();
@@ -363,12 +377,17 @@ class Iceberg {
     this.xSpeed = _xSpeed;
     this.ySpeed = _ySpeed;
     this.radius = unit/2;
+    this.image = random(icebergImages);
   }
 
   display(){
-    stroke(0);
-    fill(255, 255, 255, 200);
-    ellipse(this.x, this.y, this.width, this.height);
+    push();
+    imageMode(CENTER);
+    // stroke(0);
+    // fill(255, 255, 255, 200);
+    // ellipse(this.x, this.y, this.width, this.height);
+    image(this.image, this.x+this.radius, this.y+this.radius, this.width, this.height);
+    pop();
   }
 
   move(){
