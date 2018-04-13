@@ -71,6 +71,9 @@ Credits
     Home screen background (arctic station):
     https://3c1703fe8d.site.internapcdn.net/newman/gfx/news/hires/2013/researchstat.jpg
 
+    Home screen polar bear (edited):
+    https://cdn.images.express.co.uk/img/dynamic/109/590x/International-polar-bear-day-facts-about-bears-772291.jpg
+
     Child's drawing of dying polar bears:
     http://payload188.cargocollective.com/1/7/236146/6073255/Save%20the%20Polar%20bears%20drawing%20670.jpg
 
