@@ -96,16 +96,16 @@ class ImageButton {
 function mouseClicked(){
     if(mouseX > polarbearBtn.x && mouseX < polarbearBtn.x2 && mouseY > polarbearBtn.y && mouseY < polarbearBtn.y2){
       print("clicked");
-      open("polar_jump.html");
+      open("polar_jump.html", "_self");
 
     } else if(mouseX > 475 && mouseX < 645 && mouseY > 97 && mouseY < 269){
-      open("about.html");
+      open("about.html", "_self");
 
     } else if(mouseX > 200 && mouseX < 300 && mouseY > 460 && mouseY < 560){
-      open("map.html");
+      open("map.html", "_self");
 
     } else if(mouseX > 180 && mouseX < 455 && mouseY > 80 && mouseY < 275){
-      open("wiki.html");
+      open("wiki.html", "_self");
 
     } else if(mouseX > helpBtn.x && mouseX < helpBtn.x2 && mouseY > helpBtn.y && mouseY < helpBtn.y2){
       if(help==false){
