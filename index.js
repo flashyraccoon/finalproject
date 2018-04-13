@@ -5,13 +5,14 @@ let unit = 64;
 
 let imgBackground;
 let imgMenubar;
+let imgPolarbear;
 let imgIceshelf;
 let help = false;
 
 let imageButtons = [];
 
 let helpBtn;
-let pspBtn;
+let polarbearBtn;
 let phoneBtn;
  
 function setup(){
@@ -38,11 +39,11 @@ function setup(){
 
   phoneBtn = loadImage("images/phone.png");
   phoneBtn = new ImageButton(phoneBtn, 200, 460, 100, 100);
-  imageButtons.push(pspBtn);
+  imageButtons.push(phoneBtn);
 
-  pspBtn = loadImage("images/psp.png");
-  pspBtn = new ImageButton(pspBtn, 720, 460, 200, 120);
-  imageButtons.push(pspBtn);
+  polarbearBtn = loadImage("images/polarbear_free.png");
+  polarbearBtn = new ImageButton(polarbearBtn, 720, 440, 200, 200);
+  imageButtons.push(polarbearBtn);
 
 }
 
@@ -67,7 +68,7 @@ function draw(){
   rect(180, 80, 275, 195); //chalc board -> wiki game
 
   helpBtn.display();
-  pspBtn.display();
+  polarbearBtn.display();
   phoneBtn.display();
 
   if(help==true){
@@ -93,7 +94,7 @@ class ImageButton {
 }
 
 function mouseClicked(){
-    if(mouseX > pspBtn.x && mouseX < pspBtn.x2 && mouseY > pspBtn.y && mouseY < pspBtn.y2){
+    if(mouseX > polarbearBtn.x && mouseX < polarbearBtn.x2 && mouseY > polarbearBtn.y && mouseY < polarbearBtn.y2){
       print("clicked");
       open("polar_jump.html");
 
