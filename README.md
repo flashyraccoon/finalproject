@@ -68,8 +68,8 @@ Credits
     Google Maps Places Search Tutorial:
     https://developers.google.com/maps/documentation/javascript/examples/place-search
 
-    SONY PSP image:
-    By Evan-Amos - Own work, Public Domain, https://commons.wikimedia.org/w/index.php?curid=11337256
+    Home screen background (arctic station):
+    https://3c1703fe8d.site.internapcdn.net/newman/gfx/news/hires/2013/researchstat.jpg
 
     Child's drawing of dying polar bears:
     http://payload188.cargocollective.com/1/7/236146/6073255/Save%20the%20Polar%20bears%20drawing%20670.jpg
