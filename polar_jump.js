@@ -1,3 +1,8 @@
+// 1) checking whether moving would put the polarbear in "overlapping" range of an iceberg, and if so, intercepting the regular grid movement and sending the polarbear straight to the location of the iceberg that is in overlapping range ( ---> ~ line 305)
+
+// 2) after moving the polarbear, checking whether it's overlapping with an iceberg, and not "in the water". If it's in the water, it should toggle some kinf of response like sending the polarbear back to the start ( ---> ~ line 143-150)
+
+
 let width = 1024;
 let height = 576+64;
 let unit = 64;
@@ -43,7 +48,7 @@ let radius;
 let i;
 let j;
 
-let overlapping = true;
+let overlapping = false;
 
 function setup(){
 
@@ -80,25 +85,19 @@ function setup(){
 function draw(){
 
   sliderValue = slider.value();
-  // print(sliderValue);
 
   if (gameState == 0 ){
     startScreen();
     lives = 3;
     score = 0;
     time = time*0;
-
-
-
   } else if (gameState == 1){
-
     update();
-
     if (lives == 0) {
       gameState = 2;
     }
 
-    if (polarbear.y < 1.2*unit && polarbear.x > 4.5*unit && polarbear.x < 12*unit){ //checks if the bear got to the top
+    if (polarbear.y < 1.2*unit && polarbear.x > 4.5*unit && polarbear.x < 12*unit){ //checks if the bear got to the top;
       gameState = 3;
     }
 
@@ -117,7 +116,7 @@ function draw(){
       }
 
       for (j of icebergs){
-        if (i.bounce(j)){
+        if (i.bounce(j)){ // makes the icebergs bounce off the top and bottom edge of the game
           if (j.x-i.x < i.radius){
             i.ySpeed *= -1;
             j.ySpeed *= -1;
@@ -125,14 +124,12 @@ function draw(){
         }
       }
 
-
-
       for (p of polarbears) {
         if (i.overlaps(p)){
           p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
           p.y=i.y;
 
-          if(i.x > width){
+          if(i.x > width){ //makes the iceberg that is carrying the polarbear along respawn on the left side after it has moved off the right edge of the game;
             i.x = -unit;
             p.x = i.x;
             p.y = i.y;
@@ -142,23 +139,20 @@ function draw(){
             i.width -= 0.5;
             i.height -= 0.5;
           }
-
-          // print(overlapping);
         } else if(overlapping == false) {
-          // print(overlapping);
-        } // else if (polarbear is not overlapping with an iceberg){
-            //polarbear is "in the water";
-            //polarbear.flashing(); -> image flashes a couple of times
-            //lives --;
-            //polarbear.teleport(); -> polarbear is teleported back to the start platform
-        //}
+          // else if (polarbear is not overlapping with an iceberg){
+              //polarbear is "in the water";
+              //polarbear.flashing(); -> image flashes a couple of times
+              //lives --;
+              //polarbear.teleport(); -> polarbear is teleported back to the start platform
+          //}
+        }
       }
     }
 
     timePassed1 = frameCount % random(intervals);
     if (timePassed1 == 0) {
-      let iceberg = new Iceberg(random(ySpawns), random(2, 3), random(ySpeeds)*sliderValue);
-      //let iceberg = new Iceberg(0, 128, random(xSpeedRight)*sliderValue);
+      let iceberg = new Iceberg(random(ySpawns), random(2, 3), random(ySpeeds)*sliderValue); // spawns the icebergs ar somewhat random intervals;
       icebergs.push(iceberg);
     }
 
@@ -184,7 +178,7 @@ function draw(){
   }
 }
 
-function mouseClicked(){
+function mouseClicked(){ // starting and restarting the game from the start screen or win screen;
    if (gameState == 0){
      gameState = 1;
    } else if (gameState == 2){
@@ -192,7 +186,7 @@ function mouseClicked(){
    } else if (gameState == 1){
      //no function during the game yet; maybe something later;
    } else if (gameState == 3){
-     polarbear.x = 7*unit;
+     polarbear.x = 7*unit; //puts the polarbear at his start position
      polarbear.y = 9*unit;
 
      lives = 3;
@@ -239,7 +233,7 @@ function startScreen() {
   text("click to begin", width/2, 570);
 }
 
-function winScreen(){ //pulled up when gameState changes to 3; not functional yet;
+function winScreen(){
   image(imgStartscreen, 0, unit);
   image(imgIceshelf, 250, unit+20, 500, 250);
 
@@ -274,7 +268,6 @@ function winScreen(){ //pulled up when gameState changes to 3; not functional ye
 function update() {
   time++;
   background(121, 210, 121);
-  //image(imgBackground, 0, 0);
 }
 
 function gameOver(){
@@ -301,69 +294,54 @@ class Polarbear {
       fill(this.color);
       stroke(this.outline);
       translate(this.x, this.y);
-      beginShape();
-      // ellipse(0, 0, this.diameter, this.diameter);
-      endShape();
       image(imgPolarbear, -(this.radius), -(this.radius), 2*unit, 2*unit);
-      //imgPolarbear(this.x, this.y, unit, unit);
     pop();
   }
 }
 
-function keyTyped(){
-  previousTime = currentTime;
-  currentTime = millis();
-
-  //if (currentTime - previousTime < 1000) return;
-
+function keyTyped(){ // navigates the polarbear across the playing field on a grid;
   print(key);
 
-  // for (other of icebergs) {
-  // let q = dist(other.x, other.y, this.x, this.y); //sets d as the distance between other and iceberg
-  // // return (q < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
-  // if (q > (other.radius)/2+unit/2) return;
-
+  //when pressing one of the keys for moving the polarbear, I want it to first check whether moving the bear in the indicated direction by unit/2 would put it within "ovelapping" range (see overlapping function, line 383) of an iceberg.
+  //if moving the polarbear would put it in overlapping-range of an iceberg, then instead of moving by unit/2 in the indicated direction, it should move the polabear straight to the location of the iceberg it would be overlapping (as happening on lines 123-131)
   if(key === "w" || key == "W") {
-    // if (q < (this.diameter/2 + other.radius)/2+unit/2) {
-    //   this.y -= other.y;
-    //
-    // } else
     if(polarbear.y > unit) {
       polarbear.y-=unit/2;
-      // print(polarbear.y);
-    } //else {
-      //polarbearPos = unit;
-    //}
+      print(overlapping);
+    }
   } else if (key === "s" || key == "S") {
-    // if (q < (this.diameter/2 + other.radius)/2+unit/2) {
-    //   this.y += other.y;
-    // } else
     if(polarbear.y < height-unit) {
-        polarbear.y+=unit/2;
+      polarbear.y+=unit/2;
+      print(overlapping);
       }
   } else if(key === "a" || key == "A"){
-      if(polarbear.x > 0) {
-        if(polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
-          polarbear.x-=unit/2;
-        } else if (polarbear.y == height-unit && polarbear.x > 4*unit){ //checks to see if the bear is on the start panel
-          polarbear.x-=unit/2;
-        } else if (polarbear.y == unit && polarbear.x > 5*unit){ //checks to see if the bear is on the finish panel
-          polarbear.x-=unit/2;
-        }
+    if(polarbear.x > 0) {
+      if(polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
+        polarbear.x-=unit/2;
+        print(overlapping);
+      } else if (polarbear.y == height-unit && polarbear.x > 4*unit){ //checks to see if the bear is on the start panel
+        polarbear.x-=unit/2;
+        print(overlapping);
+      } else if (polarbear.y == unit && polarbear.x > 5*unit){ //checks to see if the bear is on the finish panel
+        polarbear.x-=unit/2;
+        print(overlapping);
       }
+    }
   } else if(key === "d" || key == "D") {
-      if(polarbear.x < width-unit) {
-        if (polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
-          polarbear.x+=unit/2;
-        } else if (polarbear.y == height-unit && polarbear.x < 11*unit){ //checks to see if the bear is on the start panel
-          polarbear.x+=unit/2;
-        } else if (polarbear.y == unit && polarbear.x < 10*unit){ //checks to see if the bear is on the finish panel
-          polarbear.x+=unit/2;
-        }
+    if(polarbear.x < width-unit) {
+      if (polarbear.y > unit && polarbear.y < height-unit){ //checks to see if the bear is inbetween start and finish
+        polarbear.x+=unit/2;
+        print(overlapping);
+      } else if (polarbear.y == height-unit && polarbear.x < 11*unit){ //checks to see if the bear is on the start panel
+        polarbear.x+=unit/2;
+        print(overlapping);
+      } else if (polarbear.y == unit && polarbear.x < 10*unit){ //checks to see if the bear is on the finish panel
+        polarbear.x+=unit/2;
+        print(overlapping);
       }
     }
   }
-//}
+}
 
 class Iceberg {
 
@@ -405,6 +383,8 @@ class Iceberg {
     return (d < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
     if(d == true){
       overlapping = true;
+    } else {
+      overlapping = false;
     }
     if (lives == 0) {
       gameState = 0;
