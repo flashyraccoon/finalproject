@@ -71,14 +71,14 @@ Credits
     Home screen background (arctic station):
     https://3c1703fe8d.site.internapcdn.net/newman/gfx/news/hires/2013/researchstat.jpg
 
-    Home screen polar bear (edited):
+    Home screen polar bear image (edited):
     https://cdn.images.express.co.uk/img/dynamic/109/590x/International-polar-bear-day-facts-about-bears-772291.jpg
-
-    Child's drawing of dying polar bears:
-    http://payload188.cargocollective.com/1/7/236146/6073255/Save%20the%20Polar%20bears%20drawing%20670.jpg
 
     FROSTWANKER font:
     http://www.fontspace.com/spork-thug-typography/frostbitten-wanker
 
     signpost image (edited):
     http://c8.alamy.com/comp/KFRCM6/signpost-in-snowy-alpine-mountains-madonna-di-campiglio-ski-center-KFRCM6.jpg
+
+    arctic fox image (edited):
+    https://vignette.wikia.nocookie.net/creatures-of-the-world/images/c/c2/6897386531_46fd93e18a_b.jpg/revision/latest?cb=20161024225819
