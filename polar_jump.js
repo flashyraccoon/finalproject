@@ -255,7 +255,7 @@ function winScreen(){
   text("You made it!", width/2, 220);
 
   textSize(20);
-  text("Your time:" + round(time/60), width/2, 420);
+  text("Your time:" + round(time/15) + "seconds", width/2, 420);
 
   textAlign(CENTER);
   textSize(28);
@@ -390,4 +390,4 @@ class Iceberg {
       gameState = 0;
     }
   }
-}6
+}
