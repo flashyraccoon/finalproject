@@ -15,6 +15,7 @@ let helpBtn;
 let polarbearBtn;
 let phoneBtn;
 let signpostBtn;
+let foxBtn;
  
 function setup(){
 
@@ -45,6 +46,11 @@ function setup(){
   polarbearBtn = loadImage("images/polarbear_free.png");
   polarbearBtn = new ImageButton(polarbearBtn, 720, 440, 200, 200);
   imageButtons.push(polarbearBtn);
+
+  foxBtn = loadImage("images/fox.png");
+  foxBtn = new ImageButton(foxBtn, 300, 550, 50, 50);
+  imageButtons.push(foxBtn);
+
 }
 
 function draw(){
@@ -70,6 +76,7 @@ function draw(){
   helpBtn.display();
   polarbearBtn.display();
   phoneBtn.display();
+  foxBtn.display();
 
   if(help==true){
     imgIceshelf.display();
