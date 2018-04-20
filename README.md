@@ -82,3 +82,6 @@ Credits
 
     arctic fox image (edited):
     https://vignette.wikia.nocookie.net/creatures-of-the-world/images/c/c2/6897386531_46fd93e18a_b.jpg/revision/latest?cb=20161024225819
+
+    Home screen frosty border (edited):
+    https://thumbs.dreamstime.com/b/frost-crystal-border-ice-christmas-background-76821101.jpg

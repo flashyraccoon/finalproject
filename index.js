@@ -7,6 +7,7 @@ let imgBackground;
 let imgMenubar;
 let imgPolarbear;
 let imgIceshelf;
+let imgBorder;
 let help = false;
 
 let imageButtons = [];
@@ -33,6 +34,7 @@ function setup(){
 
   imgBackground = loadImage("images/researchstat.jpg");
   imgMenubar = loadImage("images/menubar.png");
+  imgBorder = loadImage("images/border.png");
 
   imgIceshelf = loadImage("images/iceshelf.png");
   imgIceshelf = new ImageButton(imgIceshelf, width/2, height/2, 600, 300);
@@ -60,22 +62,9 @@ function draw(){
 
 
   image(imgBackground, 0, unit, width, height);
-  image(imgMenubar, 0, 0);
-  //pspBtn.mouseOver(psp);
-  //return (false);
-  textSize(34);
-//  textFont(font2DTitle);
-  fill(100, 240, 255);
-  stroke(0);
-  textAlign(CENTER);
-  textFont(snowFont);
-  text("Look around! There is much to discover!", width/2, 40);
-//  textFont(font2DTitle);
 
   noFill();
   noStroke();
-  rect(475, 97, 170, 172); //polarbear poster -> about page
-  rect(180, 80, 275, 195); //chalc board -> wiki game
 
   helpBtn.display();
 
@@ -107,6 +96,17 @@ function draw(){
   phoneBtn.display();
   foxBtn.display();
   helpBtn.display();
+
+  image(imgBorder, 0, unit);
+  image(imgMenubar, 0, 0);
+  
+  textSize(34);
+
+  fill(100, 240, 255);
+  stroke(0);
+  textAlign(CENTER);
+  textFont(snowFont);
+  text("Look around! There is much to discover!", width/2, 40);
 }
 
 class ImageButton {
