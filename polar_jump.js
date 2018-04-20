@@ -390,4 +390,4 @@ class Iceberg {
       gameState = 0;
     }
   }
-}
+}6
