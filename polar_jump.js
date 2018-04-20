@@ -33,37 +33,24 @@ let menuHeight = unit;
 let menuWidth = width;
 
 let icebergs = [];
-let iceberg;
-let polarbears = [];
+// let iceberg;
+// let polarbears = [];
 
 let ySpeeds = [-1, 1];
 let ySpawns = [unit, 2.5*unit, 4*unit, 5.5*unit, 7*unit, 8.5*unit];
 
-let x;
-let y;
-let xSpeed;
-let ySpeed;
-let radius;
+// let x;
+// let y;
+// let xSpeed;
+// let ySpeed;
+// let radius;
 
-let i;
-let j;
+// let i;
+// let j;
 
 let overlapping = false;
 
-function setup(){
-
-  snowFont = loadFont("fonts/FROSW___.ttf");
-
-  frameRate(15);
-  time = frameCount;
-  rectMode(CORNER);
-  ellipseMode(CORNER);
-
-  slider = createSlider(1, 2, 1, 1);
-  slider.position(width/2-50, 20);
-  slider.style('width', '100px');
-  slider.parent("sketch-holder");
-
+function preload(){
   imgBackground = loadImage("images/polarbear-game.png");
   imgMenubar = loadImage("images/menubar.png");
   imgStartscreen = loadImage("images/polarbear-startscreen.png");
@@ -74,12 +61,27 @@ function setup(){
   icebergImages.push(imgIceberg_01);
   imgIceberg_02 = loadImage("images/ice2.png");
   icebergImages.push(imgIceberg_02);
+}
+
+function setup(){
+
+  snowFont = loadFont("fonts/FROSW___.ttf");
+
+  // frameRate(15);
+  time = frameCount;
+  rectMode(CORNER);
+  ellipseMode(CORNER);
+
+  slider = createSlider(1, 2, 1, 1);
+  slider.position(width/2-50, 20);
+  slider.style('width', '100px');
+  slider.parent("sketch-holder");
 
   var cnv = createCanvas(width,height, 0, 0);
   cnv.parent("sketch-holder");
 
   polarbear = new Polarbear();
-  polarbears.push (polarbear);
+  //polarbears.push (polarbear);
 }
 
 function draw(){
@@ -102,8 +104,15 @@ function draw(){
     }
 
     image(imgBackground, 0, unit);
+    overlapping = false;
 
     for (i of icebergs) {
+      // perform bouncing within the Iceberg object
+      for (j of icebergs){
+        i.bounce(j); // makes the icebergs bounce off the top and bottom edge of the game
+      }
+
+      // then move and display
       i.move();
       i.display();
 
@@ -115,45 +124,42 @@ function draw(){
         i.ySpeed *= -1;
       }
 
-      for (j of icebergs){
-        if (i.bounce(j)){ // makes the icebergs bounce off the top and bottom edge of the game
-          if (j.x-i.x < i.radius){
-            i.ySpeed *= -1;
-            j.ySpeed *= -1;
-          }
+      if (i.overlaps(polarbear)){
+        polarbear.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
+        polarbear.y=i.y;
+
+        if(i.x > width){ //makes the iceberg that is carrying the polarbear along respawn on the left side after it has moved off the right edge of the game;
+          i.x = -unit;
+          polarbear.x = i.x;
+          polarbear.y = i.y;
         }
-      }
 
-      for (p of polarbears) {
-        if (i.overlaps(p)){
-          p.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
-          p.y=i.y;
-
-          if(i.x > width){ //makes the iceberg that is carrying the polarbear along respawn on the left side after it has moved off the right edge of the game;
-            i.x = -unit;
-            p.x = i.x;
-            p.y = i.y;
-          }
-
-          if(sliderValue == 2) {
-            i.width -= 0.5;
-            i.height -= 0.5;
-          }
-        } else if(overlapping == false) {
-          // else if (polarbear is not overlapping with an iceberg){
-              //polarbear is "in the water";
-              //polarbear.flashing(); -> image flashes a couple of times
-              //lives --;
-              //polarbear.teleport(); -> polarbear is teleported back to the start platform
-          //}
+        if(sliderValue == 2) {
+          i.width -= 0.5;
+          i.height -= 0.5;
         }
-      }
+      } 
+    }
+
+    if(overlapping == false && polarbear.y < 9*unit) {
+      console.log('polarbear is in the water');
+      // lives --;
+      polarbear.teleport(); //-> polarbear is teleported back to the start platform
     }
 
     timePassed1 = frameCount % random(intervals);
     if (timePassed1 == 0) {
       let iceberg = new Iceberg(random(ySpawns), random(2, 3), random(ySpeeds)*sliderValue); // spawns the icebergs ar somewhat random intervals;
-      icebergs.push(iceberg);
+      // make sure icebergs don't overlap before adding them
+      let overlapsIceberg = false; 
+      for (i of icebergs) {
+        if (iceberg.overlaps(i)){
+          overlapsIceberg = true;
+        }
+      }
+      if (!overlapsIceberg){
+        icebergs.push(iceberg);
+      }
     }
 
     polarbear.display();
@@ -287,15 +293,30 @@ class Polarbear {
 
     this.color = 255;
     this.outline = 0;
+    this.opacity = 255;
   }
 
   display(){
     push();
-      fill(this.color);
-      stroke(this.outline);
+      //fill(this.color);
+      //stroke(this.outline);
       translate(this.x, this.y);
+      tint(255, this.opacity); 
       image(imgPolarbear, -(this.radius), -(this.radius), 2*unit, 2*unit);
     pop();
+  }
+
+  teleport(){
+    this.opacity-=10; 
+
+    // once sufficiently faded, it has died :()
+    if (this.opacity < 50){
+      lives--;
+      this.x = 7*unit;
+      this.y = 9*unit;
+      this.opacity = 255;
+    }
+    
   }
 }
 
@@ -350,6 +371,7 @@ class Iceberg {
     this.ySpawn = _ySpawn
     this.x = -64;
     this.y = _ySpawn;
+    this.mass = 1; 
     this.width = unit;
     this.height = unit;
     this.xSpeed = _xSpeed;
@@ -362,8 +384,8 @@ class Iceberg {
     push();
     imageMode(CENTER);
     // stroke(0);
-    // fill(255, 255, 255, 200);
-    // ellipse(this.x, this.y, this.width, this.height);
+    //fill(255, 255, 255, 200);
+    //ellipse(this.x, this.y, this.width, this.height);
     image(this.image, this.x+this.radius, this.y+this.radius, this.width, this.height);
     pop();
   }
@@ -371,23 +393,37 @@ class Iceberg {
   move(){
       this.x += this.xSpeed;
       this.y += this.ySpeed;
-    }
+  }
 
   bounce(other) {
+
     let t = dist(other.x, other.y, this.x, this.y); //sets t as the distance between other and iceberg
-    return (t <= (this.radius + other.radius));
-  	}
+    if (t < (this.radius + other.radius)){
+      // for circles of the same mass, collision results in "switching" their respective x and y speeds
+      let xs = this.xSpeed; 
+      let ys = this.ySpeed;
+      this.xSpeed = other.xSpeed;
+      this.ySpeed = other.ySpeed;
+      other.xSpeed = xs;
+      other.ySpeed = ys;
+    }
+  }
 
   overlaps(other){
-    let d = dist(other.x, other.y, this.x, this.y); //sets d as the distance between other and iceberg
-    return (d < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
-    if(d == true){
-      overlapping = true;
-    } else {
-      overlapping = false;
-    }
     if (lives == 0) {
       gameState = 0;
     }
+
+    let d = dist(other.x, other.y, this.x, this.y); //sets d as the distance between other and iceberg
+    // return (d < (this.width/2 + other.radius)/2); // checks if the polarbear and iceberg are less than half that distance away from each other
+    if(d < (this.width/2 + other.radius/2)){
+      overlapping = true;
+      return true;
+      //print('overlaps!')
+    } else {
+      //overlapping = false;
+      return false;
+    }
+    
   }
 }
