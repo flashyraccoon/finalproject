@@ -79,3 +79,6 @@ Credits
 
     FROSTWANKER font:
     http://www.fontspace.com/spork-thug-typography/frostbitten-wanker
+
+    signpost image (edited):
+    http://c8.alamy.com/comp/KFRCM6/signpost-in-snowy-alpine-mountains-madonna-di-campiglio-ski-center-KFRCM6.jpg
