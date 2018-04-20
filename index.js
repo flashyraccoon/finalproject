@@ -14,6 +14,7 @@ let imageButtons = [];
 let helpBtn;
 let polarbearBtn;
 let phoneBtn;
+let signpostBtn;
  
 function setup(){
 
@@ -37,14 +38,13 @@ function setup(){
   helpBtn = new ImageButton(helpBtn, width-unit, 0, unit, unit);
   imageButtons.push(helpBtn);
 
-  phoneBtn = loadImage("images/phone.png");
-  phoneBtn = new ImageButton(phoneBtn, 200, 460, 100, 100);
+  phoneBtn = loadImage("images/signpost.png");
+  phoneBtn = new ImageButton(phoneBtn, 150, 300, 145, 357);
   imageButtons.push(phoneBtn);
 
   polarbearBtn = loadImage("images/polarbear_free.png");
   polarbearBtn = new ImageButton(polarbearBtn, 720, 440, 200, 200);
   imageButtons.push(polarbearBtn);
-
 }
 
 function draw(){
@@ -101,7 +101,7 @@ function mouseClicked(){
     } else if(mouseX > 475 && mouseX < 645 && mouseY > 97 && mouseY < 269){
       open("about.html", "_self");
 
-    } else if(mouseX > 200 && mouseX < 300 && mouseY > 460 && mouseY < 560){
+    } else if(mouseX > phoneBtn.x && mouseX < phoneBtn.x+145 && mouseY > phoneBtn.y && mouseY < phoneBtn.y+357){
       open("map.html", "_self");
 
     } else if(mouseX > 180 && mouseX < 455 && mouseY > 80 && mouseY < 275){
