@@ -13,7 +13,7 @@ let lives = 3;
 
 let time;
 let timePassed;
-let intervals = [30, 60, 90];
+let intervals = [30, 50, 70];
 let timeSinceClick = 0;
 let currentTime, previousTime;
 
@@ -125,8 +125,10 @@ function draw(){
       }
 
       if (i.overlaps(polarbear)){
-        polarbear.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
-        polarbear.y=i.y;
+        if(i.intact == true){
+          polarbear.x=i.x; // makes the polarbear move along with the iceberg as long as they are overlapping
+          polarbear.y=i.y;
+        }
 
         if(i.x > width){ //makes the iceberg that is carrying the polarbear along respawn on the left side after it has moved off the right edge of the game;
           i.x = -unit;
@@ -134,9 +136,15 @@ function draw(){
           polarbear.y = i.y;
         }
 
+
         if(sliderValue == 2) {
-          i.width -= 0.5;
-          i.height -= 0.5;
+          i.width -= 0.15;
+          i.height -= 0.15;
+          if(i.width < 20){
+            i.alpha = 0;
+            i.intact = false;
+            overlapping = false;
+          }
         }
       }
     }
@@ -261,7 +269,8 @@ function winScreen(){
   text("You made it!", width/2, 220);
 
   textSize(20);
-  text("Your time:" + round(time/30) + "seconds", width/2, 420);
+  text("Your time: " + round(time/30) + "seconds", width/2, 420);
+  text("Your remaining lives: " + lives, width/2, 450);
 
   textAlign(CENTER);
   textSize(28);
@@ -378,6 +387,7 @@ class Iceberg {
     this.ySpeed = _ySpeed;
     this.radius = unit/2;
     this.image = random(icebergImages);
+    this.intact = true;
   }
 
   display(){
