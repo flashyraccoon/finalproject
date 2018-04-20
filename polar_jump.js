@@ -13,7 +13,7 @@ let lives = 3;
 
 let time;
 let timePassed;
-let intervals = [15, 30, 45];
+let intervals = [30, 60, 90];
 let timeSinceClick = 0;
 let currentTime, previousTime;
 
@@ -138,7 +138,7 @@ function draw(){
           i.width -= 0.5;
           i.height -= 0.5;
         }
-      } 
+      }
     }
 
     if(overlapping == false && polarbear.y < 9*unit) {
@@ -151,7 +151,7 @@ function draw(){
     if (timePassed1 == 0) {
       let iceberg = new Iceberg(random(ySpawns), random(2, 3), random(ySpeeds)*sliderValue); // spawns the icebergs ar somewhat random intervals;
       // make sure icebergs don't overlap before adding them
-      let overlapsIceberg = false; 
+      let overlapsIceberg = false;
       for (i of icebergs) {
         if (iceberg.overlaps(i)){
           overlapsIceberg = true;
@@ -172,7 +172,7 @@ function draw(){
     textFont("arial");
     fill(0);
     text("Play!", 40, 40);
-    text("Time: " + round(time/15), 940, 40);
+    text("Time: " + round(time/30), 940, 40);
     text("Lives: " + lives, 230, 40);
     text("past", width/2-100, 40);
     text("present", width/2+70, 40);
@@ -261,7 +261,7 @@ function winScreen(){
   text("You made it!", width/2, 220);
 
   textSize(20);
-  text("Your time:" + round(time/15) + "seconds", width/2, 420);
+  text("Your time:" + round(time/30) + "seconds", width/2, 420);
 
   textAlign(CENTER);
   textSize(28);
@@ -301,13 +301,13 @@ class Polarbear {
       //fill(this.color);
       //stroke(this.outline);
       translate(this.x, this.y);
-      tint(255, this.opacity); 
+      tint(255, this.opacity);
       image(imgPolarbear, -(this.radius), -(this.radius), 2*unit, 2*unit);
     pop();
   }
 
   teleport(){
-    this.opacity-=10; 
+    this.opacity-=10;
 
     // once sufficiently faded, it has died :()
     if (this.opacity < 50){
@@ -316,7 +316,7 @@ class Polarbear {
       this.y = 9*unit;
       this.opacity = 255;
     }
-    
+
   }
 }
 
@@ -371,7 +371,7 @@ class Iceberg {
     this.ySpawn = _ySpawn
     this.x = -64;
     this.y = _ySpawn;
-    this.mass = 1; 
+    this.mass = 1;
     this.width = unit;
     this.height = unit;
     this.xSpeed = _xSpeed;
@@ -400,7 +400,7 @@ class Iceberg {
     let t = dist(other.x, other.y, this.x, this.y); //sets t as the distance between other and iceberg
     if (t < (this.radius + other.radius)){
       // for circles of the same mass, collision results in "switching" their respective x and y speeds
-      let xs = this.xSpeed; 
+      let xs = this.xSpeed;
       let ys = this.ySpeed;
       this.xSpeed = other.xSpeed;
       this.ySpeed = other.ySpeed;
@@ -424,6 +424,6 @@ class Iceberg {
       //overlapping = false;
       return false;
     }
-    
+
   }
 }
