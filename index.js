@@ -1,16 +1,8 @@
-let width = 1024;
-let height = 576+64;
-
 let unit = 64;
 
-let imgBackground;
-let imgMenubar;
-let imgPolarbear;
-let imgIceshelf;
-let imgBorder;
-let help = false;
+let imgBackground, imgMenubar, imgBorder, imgIceshelf, imgHelp, imgSign, imgPolarbear, imgFox;
 
-let imageButtons = [];
+let help = false;
 
 let helpBtn;
 let polarbearBtn;
@@ -20,53 +12,50 @@ let foxBtn;
 
 let noTint = [255, 255, 255, 255];
 let blueTint = [100, 240, 255, 255];
- 
-function setup(){
 
+function preload(){
   snowFont = loadFont("fonts/FROSW___.ttf");
-
-  weblink = createA("#","");
-  weblink.position(width/2-50, 40);
-  weblink.parent("sketch-holder");
-
-  var cnv = createCanvas(width, height);
-  cnv.parent("sketch-holder");
-
-  imgBackground = loadImage("images/researchstat.jpg");
+  imgBackground = loadImage("images/seaice.jpg");
   imgMenubar = loadImage("images/menubar.png");
   imgBorder = loadImage("images/border.png");
-
   imgIceshelf = loadImage("images/iceshelf.png");
-  imgIceshelf = new ImageButton(imgIceshelf, width/2, height/2, 600, 300);
-  imageButtons.push(imgIceshelf);
-
-  helpBtn = loadImage("images/questionmark.png");
-  helpBtn = new ImageButton(helpBtn, width-unit, 0, unit, unit);
-  imageButtons.push(helpBtn);
-
-  phoneBtn = loadImage("images/signpost.png");
-  phoneBtn = new ImageButton(phoneBtn, 150, 300, 145, 357);
-  imageButtons.push(phoneBtn);
-
-  polarbearBtn = loadImage("images/polarbear_free.png");
-  polarbearBtn = new ImageButton(polarbearBtn, 720, 440, 200, 200);
-  imageButtons.push(polarbearBtn);
-
-  foxBtn = loadImage("images/fox.png");
-  foxBtn = new ImageButton(foxBtn, 300, 550, 50, 50);
-  imageButtons.push(foxBtn);
-
+  imgHelp = loadImage("images/questionmark.png");
+  imgSign = loadImage("images/signpost.png");
+  imgPolarbear = loadImage("images/polarbear_free2.png");
+  imgFox = loadImage("images/fox.png");
 }
+ 
+function setup(){
+  weblink = createA("#","");
+  weblink.position((width/2)-50, 40);
+  weblink.parent("sketch-holder");
 
-function draw(){
-
+  var cnv = createCanvas(window.innerWidth, window.innerHeight);
+  cnv.parent("sketch-holder");
+  
+  helpBtn = new ImageButton(imgHelp, width-2*unit, 10, unit, unit);
+  signpostBtn = new ImageButton(imgSign, width*0.8, height*0.35, width*0.08, height*0.3);
+  polarbearBtn = new ImageButton(imgPolarbear, width*.14, height*.45, width*.25, height*.3);
+  foxBtn = new ImageButton(imgFox, width*.5, height*.6, width*.15, height*.2);
 
   image(imgBackground, 0, unit, width, height);
 
-  noFill();
-  noStroke();
+  
+  image(imgBorder, 0, unit, width, height);
+  image(imgMenubar, 0, 0, width, unit*1.8);
+  
+  textSize(34);
 
-  helpBtn.display();
+  fill(100, 240, 255);
+  stroke(0);
+  textAlign(CENTER);
+  textFont(snowFont);
+  text("Arctic Adventures!", width * 0.33, 40);
+  textSize(16);
+  text("Look around! There is much to discover!", width * 0.66, 40);
+}
+
+function draw(){
 
   if(mouseX > polarbearBtn.x && mouseX < polarbearBtn.x2 && mouseY > polarbearBtn.y && mouseY < polarbearBtn.y2){
     polarbearBtn.tinted();
@@ -74,10 +63,10 @@ function draw(){
     polarbearBtn.tint = noTint;
   }
 
-  if(mouseX > phoneBtn.x && mouseX < phoneBtn.x2 && mouseY > phoneBtn.y && mouseY < phoneBtn.y2){
-    phoneBtn.tinted();
+  if(mouseX > signpostBtn.x && mouseX < signpostBtn.x2 && mouseY > signpostBtn.y && mouseY < signpostBtn.y2){
+    signpostBtn.tinted();
   } else {
-    phoneBtn.tint = noTint;
+    signpostBtn.tint = noTint;
   }
 
   if(mouseX > foxBtn.x && mouseX < foxBtn.x2 && mouseY > foxBtn.y && mouseY < foxBtn.y2){
@@ -93,20 +82,11 @@ function draw(){
   }
 
   polarbearBtn.display()
-  phoneBtn.display();
+  signpostBtn.display();
   foxBtn.display();
   helpBtn.display();
 
-  image(imgBorder, 0, unit);
-  image(imgMenubar, 0, 0);
   
-  textSize(34);
-
-  fill(100, 240, 255);
-  stroke(0);
-  textAlign(CENTER);
-  textFont(snowFont);
-  text("Look around! There is much to discover!", width/2, 40);
 }
 
 class ImageButton {
@@ -123,6 +103,7 @@ class ImageButton {
 
   display(){
     push();
+    fill(0,0,0,0);
     tint(this.tint);
     image(this.name, this.x, this.y, this.width, this.height);
     pop();
@@ -142,10 +123,10 @@ function mouseClicked(){
       print("clicked");
       open("polar_jump.html", "_self");
 
-    } else if(mouseX > phoneBtn.x && mouseX < phoneBtn.x+145 && mouseY > phoneBtn.y && mouseY < phoneBtn.y+357){
+    } else if(mouseX > signpostBtn.x && mouseX < signpostBtn.x+145 && mouseY > signpostBtn.y && mouseY < signpostBtn.y+357){
       open("map.html", "_self");
 
-    } else if(mouseX > foxBtn.x && mouseX < foxBtn.x+50 && mouseY > foxBtn.y && mouseY < foxBtn.y+50){
+    } else if(mouseX > foxBtn.x && mouseX < foxBtn.x2 && mouseY > foxBtn.y && mouseY < foxBtn.y2){
       open("wiki.html", "_self");
 
     } else if(mouseX > helpBtn.x && mouseX < helpBtn.x2 && mouseY > helpBtn.y && mouseY < helpBtn.y2){
@@ -153,17 +134,3 @@ function mouseClicked(){
     }
   }
 
-function mouseMoved(){
-  if(mouseX > polarbearBtn.x && mouseX < polarbearBtn.x2 && mouseY > polarbearBtn.y && mouseY < polarbearBtn.y2){
-    polarbearBtn.tint = blueTint;
-
-  } else if(mouseX > 475 && mouseX < 645 && mouseY > 97 && mouseY < 269){
-    helpBtn.tint = blueTint;
-
-  } else if(mouseX > phoneBtn.x && mouseX < phoneBtn.x+145 && mouseY > phoneBtn.y && mouseY < phoneBtn.y+357){
-    phoneBtn.tint = blueTint;
-
-  } else if(mouseX > foxBtn.x && mouseX < foxBtn.x+50 && mouseY > foxBtn.y && mouseY < foxBtn.y+50){
-    foxBtn.tint = blueTint;
-  }
-}
