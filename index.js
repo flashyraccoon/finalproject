@@ -36,9 +36,9 @@ function setup(){
   cnv.parent("sketch-holder");
   
   helpBtn = new ImageButton(imgHelp, width-2*unit, 10, unit, unit);
-  signpostBtn = new ImageButton(imgSign, width*0.8, height*0.35, width*0.08, height*0.3);
-  polarbearBtn = new ImageButton(imgPolarbear, width*.14, height*.45, width*.25, height*.3);
-  foxBtn = new ImageButton(imgFox, width*.5, height*.6, width*.15, height*.2);
+  signpostBtn = new ImageButton(imgSign, width*0.8, height*0.35, width*0.06, height*0.3);
+  polarbearBtn = new ImageButton(imgPolarbear, width*.14, height*.45, width*.2, height*.3);
+  foxBtn = new ImageButton(imgFox, width*.5, height*.6, width*.12, height*.2);
 
   image(imgBackground, 0, unit, width, height);
 
