@@ -65,7 +65,7 @@ function preload(){
 
 function setup(){
 
-  snowFont = loadFont("fonts/FROSW___.ttf");
+  snowFont = loadFont("fonts/FROSW.ttf");
 
   // frameRate(15);
   time = frameCount;
