@@ -10,6 +10,10 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js"></script>
  <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
   /* add some styling to links */
 
@@ -17,28 +21,40 @@ body {
 	font-family: 'Pangolin', cursive;
 	color: white;
 	font-size: 150%;
+  background: url(images/bboard.jpg) no-repeat center center fixed; 
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+
 	}
 
-
-  a {
-    color: tomato;
+  .center {
+    text-align: center;
   }
+
+  button {background-color: #555555;}
+
+  a {color: #64F0FF;}
 </style>
 
   <script type="text/javascript">
 
-let wikiData;
+let wikiData, cnv;
 
 function setup() {
-  createCanvas(200, 200);
+  let wdth = $("#sketchContainer").width();
+  cnv = createCanvas(wdth, wdth).parent(sketchContainer);
   let term = newQuote();
   callWikiAPI(term);
+  moreQuote();
 }
 
 function callWikiAPI(pageName){
   console.log(pageName);
   let url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + pageName + '&prop=text&section=0&format=json'
   loadJSON(url, gotData, 'jsonp');
+  document.getElementById('currentPage').innerHTML = pageName;
 }
 
 function gotData(data){
@@ -52,11 +68,23 @@ function display(){
     document.getElementById('wikiContainer').innerHTML = tex; // reset the HTML content of the div with the new data
     let p = document.getElementById('wikiContainer').getElementsByTagName('p'); // store the <p> elements
     let img = document.getElementById('wikiContainer').getElementsByTagName('img'); // store the <img> elements
+    let links = document.getElementById('wikiContainer').getElementsByTagName('a'); // grab all the links in the HTML
+
+    if(p[0].innerHTML == 'Redirect to:'){
+      let redirect = links[0].href.split('/');
+      redirect = redirect[redirect.length-1];
+      redirect = redirect.split('#');
+      redirect = redirect[redirect.length-1];
+      callWikiAPI(redirect);
+    }
 
 
     if (img[0]){ // if there are any images
+
       loadImage(img[0].src, function(i) { // load the first image from it's src attribute
-        image(i, 0, 0); // display the image on the canvas
+        clear(); // clear prior image
+        image(i, 0, 0); // display the image on the canvas , cnv.width, (cnv.width/i.width) * cnv.height
+        i.resize(cnv.width,0);
         filter(POSTERIZE, 8);
         filter(GRAY);
         // do further image processing here
@@ -69,45 +97,59 @@ function display(){
     if (p.length > 1){
        para = p[1]; // keep paragraph 1
        let max = p.length; // max number of paragraphs
-       for (let i = 2; i < max; i++){
+       for (let i = 2; i < max; i++){       
          para.appendChild(p[i]); // append additional paragraphs
        }
     }
 
     // now display the paragraph on the page
     document.getElementById('wikiContainer').innerHTML = para.innerHTML; // reset the HTML content of the div with the content of desired paragraph element
-    let links = document.getElementById('wikiContainer').getElementsByTagName('a'); // grab all the links in the HTML
+    links = document.getElementById('wikiContainer').getElementsByTagName('a'); // grab all the links in the HTML
     for (let i = 0; i < links.length; i++){ // loop through each one
       // take away the href attribute, so the link doesn't take you away to Wikipedia
       links[i].removeAttribute('href');
       // instead, create a new attribute that calls our API-calling function when the link is clicked
       links[i].setAttribute('onclick', 'callWikiAPI(this.title)');
     }
+
+    let sups = document.getElementById('wikiContainer').getElementsByTagName('sup');
+    for (let i = 0; i < sups.length; i++){ // loop through each one
+      let child = sups[i];
+      sups[i].style.display = "none";
+    }
   }
 }
 
   </script>
 </head>
-<body background="bboard.jpg">
+<body >
+  <div class="container-fluid">
+    
+    <div class="row">
+      <div class="col-sm-4 center"> <br>
+        <h1 style="color: #64F0FF;" > The Wiki Game! </h1>
+      </div>
+      <div class="col-sm-8 center" > <br> 
+         You begin with the Wikipedia page of a randomly selected arctic term <br>
+          The objective is to use the links to find your way to the target page.<br>
+          Learn about the arctic along the way!<br>
+          When you arrive at the target page, you've won! 
+      </div>
+    </div>
 
-<h4>How to play:</h3>
-    <p>1. Press new game to recieve a random arctic related word</p>
-    <p>2. Use the links to find the random word</p>
-    <p>3. Learn along the way</p>
-<hr>
+    <div>   
+      <hr>
+      <h4> Current page: <span id="currentPage" style="color: #64F0FF;">  </span> &nbsp; Target page: <span id="quoteDisplay" style="color: #64F0FF;">  </span> <!-- Quotes will display here --> &nbsp;
+      <button onclick="moreQuote()">New Target</button> </h4> 
+    </div>
 
-<h2>Find:</h2>
-  <div id="quoteDisplay">
-    <!-- Quotes will display here -->
+    <div class="row">
+      <div class="col-sm-8" id='wikiContainer'></div>
+      <div class="col-sm-4" id='sketchContainer'></div>
+    </div>
+
   </div>
 
-    <button onclick="moreQuote()">New Game</button>
-
-
-
     <script src="javascript.js"></script>
-
-
-  <div id=wikiContainer> </div>
 </body>
 </html>

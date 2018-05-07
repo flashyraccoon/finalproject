@@ -2,17 +2,16 @@ var wiki = [
 'arctic',
 'tundra',
 'alaska',
-'Antartica',
+'Antarctica',
 'reindeer',
-'north%20pole',
+'north pole',
 'glacier',
-'polar%20bear',
+'polar bear',
 'penguin',
-'fur%20seal',
+'fur seal',
 'walrus',
 'norway',
-'polar%20bear',
-'arctic%20fox'
+'arctic fox'
 ]
 
 function newQuote() {
