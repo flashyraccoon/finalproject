@@ -14,7 +14,7 @@ let noTint = [255, 255, 255, 255];
 let blueTint = [100, 240, 255, 255];
 
 function preload(){
-  snowFont = loadFont("fonts/FROSW___.ttf");
+  snowFont = loadFont("./fonts/FROSW___.ttf");
   imgBackground = loadImage("images/seaice.jpg");
   imgMenubar = loadImage("images/menubar.png");
   imgBorder = loadImage("images/border.png");
