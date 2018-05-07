@@ -14,7 +14,7 @@ let noTint = [255, 255, 255, 255];
 let blueTint = [100, 240, 255, 255];
 
 function preload(){
-  snowFont = loadFont("./fonts/FROSW.ttf");
+  //snowFont = loadFont("./fonts/FROSW.ttf");
   imgBackground = loadImage("images/seaice.jpg");
   imgMenubar = loadImage("images/menubar.png");
   imgBorder = loadImage("images/border.png");
@@ -26,6 +26,8 @@ function preload(){
 }
  
 function setup(){
+  snowFont = loadFont("fonts/FROSW.ttf");
+
   weblink = createA("#","");
   weblink.position((width/2)-50, 40);
   weblink.parent("sketch-holder");
